@@ -2,7 +2,7 @@ const {
     addDocument
 } = require('./dataHandler');
 const questions = require('./question_data');
-const questions_in_exam = 1;
+const questions_in_exam = process.env.QUESTION_COUNT || 1; //FOR DEV PURPOSE 1
 let current_chunk = 0;
 
 function pre_process_questions(from, to) {
