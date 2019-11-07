@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd ./front-end && yarn build && cd .. & cd back-end && npm install && cd ..",
+    "build": "cd ./front-end && npm install && npm run build && cd .. & cd back-end && npm install && cd ..",
     "start" : "node ./back-end/src/main.js" 
   },
   "author": "",
