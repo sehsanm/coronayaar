@@ -1,0 +1,12 @@
+{
+  "name": "sat-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd ./front-end && yarn build && cd .. & cd back-end && npm install && cd ..",
+    "start" : "node ./back-end/src/main.js" 
+  },
+  "author": "",
+  "license": "ISC"
+}
