@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar'
-import TypoGraphy from '@material-ui/core/Typography'
-import ExamManager from    './ExamManager'
-import ThemeProvider from './ThemeProvider'
-import  './App.css'
+import ThemeProvider from './components/ThemeProvider';
+import  './App.css';
+import NavBar from './app/Navbar';
+import Browse from './app/home/Browse';
+import { BrowserRouter as Router,
+  Switch,
+  Route,
+  Link } from 'react-router-dom';
+import Login from './app/login/Login';
 
 class App extends Component {
   render() {
@@ -13,16 +16,14 @@ class App extends Component {
     return (
       <div id='app-div'>
        <ThemeProvider>
-        <AppBar color="primary" position="static">
-            <Toolbar>
-              <TypoGraphy variant="title"
-                color="inherit"
-              >
-                  آزمایشگاه پردازش زبان طبیعی 
-            </TypoGraphy>
-            </Toolbar>
-          </AppBar>
-          <ExamManager />
+          <Router>
+            <NavBar/>
+            <Switch>
+            <Route path="/login" ><Login /></Route>
+            <Route path="/" ><Route/><Browse /></Route>
+            </Switch>
+
+          </Router>
        </ThemeProvider>
 
       </div>
