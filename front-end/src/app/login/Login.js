@@ -21,12 +21,14 @@ const styles = makeStyles( theme => ({
  
 function Login(props) {
         const  classes  = styles();
-        const [username , setUsername] = useState('');
-        const [password , setPassword] = useState('');
+        const [username , setUsername] = useState('p');
+        const [password , setPassword] = useState('p');
         const history = useHistory();
         function login() {
-            Auth.authenticate(username, password).then(()=>{
+            Auth.login(username, password).then(()=>{
                 history.push('/profile')
+            }).catch(e => {
+
             })
         }
 
@@ -34,6 +36,11 @@ function Login(props) {
         return (
             <Paper className={classes.paper}>
                 <div className={classes.div}>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                    This is a success message!
+                    </Alert>
+                </Snackbar>
                     <Grid container spacing={8} alignItems="flex-end">
                         <Grid item>
                             <Face />

@@ -25,6 +25,11 @@ function NavBar(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const history = useHistory() ; 
+    const logout = () => {
+      authProvider.logout() ; 
+      handleClose() ; 
+      history.push('/login') ; 
+    }
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
       };
@@ -40,7 +45,8 @@ function NavBar(props) {
                 <Button variant="outlined" color="secondary"  className={classes.button}
                   onClick={()=>history.push('/login')}
                   >ورود</Button>,
-                <Button variant="outlined" color="secondary" >ثبت نام</Button>
+                <Button variant="outlined" color="secondary" 
+                onClick={()=>history.push('/register')}>ثبت نام</Button>
              ] ; 
         } else {
             return [
@@ -70,6 +76,7 @@ function NavBar(props) {
               >
                 <MenuItem onClick={handleClose}>پروفایل کاربری</MenuItem>
                 <MenuItem onClick={handleClose}>کارتابل</MenuItem>
+                <MenuItem onClick={logout}>خروج</MenuItem>
               </Menu>                
             ]    
         } 

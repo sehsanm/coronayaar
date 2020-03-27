@@ -23,18 +23,24 @@ var auth = AuthInfo({
 var unAuth = AuthInfo(null) ; 
 
 var authProvider = function() {
-    let currentAuth = unAuth ; 
+    let currentAuth ;
+    if (localStorage.getItem('token') !== null) {
+        currentAuth = AuthInfo(JSON.parse(localStorage.getItem('token'))); 
+    } else {
+        currentAuth = unAuth ; 
+    }
     return {
         getAuth : () => currentAuth , 
-        authenticate : (username, password) => {
+        login : (username, password) => {
             return Communicator.post('/login' 
                 ,{username: username , password: password})
                 .then((result)=>{
-                    currentAuth = auth ;   
+                    currentAuth = AuthInfo(result) ;
+                    localStorage.setItem('token' , JSON.stringify(result)) ;    
                 }).catch((error) => console.log(error));     
         }, 
         register : (username, password , name) => {
-            return Communicator.post('/signup',
+            return Communicator.post('/register',
                 {
                     username: username, 
                     password: password,
@@ -43,6 +49,10 @@ var authProvider = function() {
                 .then((result)=>{
                     currentAuth = result  
                 }).catch((error) => console.log(error));     
+        }, 
+        logout : () => {
+            localStorage.removeItem('token') ; 
+            currentAuth = unAuth ; 
         }
     } ; 
 }();
