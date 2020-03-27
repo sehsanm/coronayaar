@@ -30,6 +30,15 @@ function NavBar(props) {
       handleClose() ; 
       history.push('/login') ; 
     }
+    const gotoDashbord = () => {
+      handleClose() ; 
+      history.push('/dashboard') ; 
+    }
+    const gotoProfile = () => {
+      handleClose() ; 
+      history.push('/profile') ; 
+    }
+
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
       };
@@ -74,8 +83,8 @@ function NavBar(props) {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>پروفایل کاربری</MenuItem>
-                <MenuItem onClick={handleClose}>کارتابل</MenuItem>
+                <MenuItem onClick={gotoProfile}>پروفایل مرکز</MenuItem>
+                <MenuItem onClick={gotoDashbord}>کارتابل</MenuItem>
                 <MenuItem onClick={logout}>خروج</MenuItem>
               </Menu>                
             ]    

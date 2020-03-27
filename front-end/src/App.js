@@ -10,6 +10,7 @@ import { BrowserRouter as Router,
   Link } from 'react-router-dom';
 import Login from './app/login/Login';
 import Register from './app/login/Register';
+import ProfileOrg from './app/profile/Profile';
 
 class App extends Component {
   render() {
@@ -22,6 +23,8 @@ class App extends Component {
             <Switch>
             <Route path="/login" ><Login /></Route>
             <Route path="/register" ><Register /></Route>
+            <Route path="/profile" ><ProfileOrg /></Route>
+
             <Route path="/" ><Route/><Browse /></Route>
             </Switch>
 

@@ -35,8 +35,9 @@ var authProvider = function() {
             return Communicator.post('/login' 
                 ,{username: username , password: password})
                 .then((result)=>{
-                    currentAuth = AuthInfo(result) ;
-                    localStorage.setItem('token' , JSON.stringify(result)) ;    
+                    console.log('xxx' , result.data) ; 
+                    currentAuth = AuthInfo(result.data) ;
+                    localStorage.setItem('token' , JSON.stringify(result.data)) ;    
                 }).catch((error) => console.log(error));     
         }, 
         register : (username, password , name) => {

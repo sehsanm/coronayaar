@@ -36,11 +36,6 @@ function Login(props) {
         return (
             <Paper className={classes.paper}>
                 <div className={classes.div}>
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error">
-                    This is a success message!
-                    </Alert>
-                </Snackbar>
                     <Grid container spacing={8} alignItems="flex-end">
                         <Grid item>
                             <Face />

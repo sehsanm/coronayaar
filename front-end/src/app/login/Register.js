@@ -38,11 +38,12 @@ export default function Register() {
   let [username , setUsername] = useState('') ;
   let [name , setName] = useState('') ;
   let [password , setPassword] = useState('') ;
-
   function registerUser() {
       Auth.register(username, password, name).then(()=> history.push('/profile'))
   }
-
+  
+  
+    
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -97,6 +98,22 @@ export default function Register() {
 
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="رمز عبور"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
+
+              />
+            </Grid>
+
           </Grid>
           <Button
             type="submit"

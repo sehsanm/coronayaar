@@ -9,12 +9,27 @@ var Communicator = function() {
             
             let headers = {} ; 
             if (Auth.getAuth().isAuthenticated()) {
-                headers.Authorization = Auth.getAuth().user.jwt ; 
+                headers.Authorization = Auth.getAuth().user.jwt ;
             } 
 
             return axios.post(endpoint + api , params, {
                 headers : headers
             }) ; 
+        },
+
+        get (api , params) { 
+            console.log(api , params);
+            
+            let token ; 
+            if (Auth.getAuth().isAuthenticated()) {
+                token = Auth.getAuth().user.jwt ; 
+            } 
+            return axios.get(endpoint + api , {
+                headers : {
+                    Authorization : token
+                }
+            }) ; 
+
         }
     }
 }() ; 

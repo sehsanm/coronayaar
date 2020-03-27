@@ -5,6 +5,13 @@ function calculateHash(password, salt) {
 }
 
 module.exports = { 
+    getCurrentUser:  (token) => {
+        jwtToken = jwt.verify(token , app.core().env.user.jwtSecret);
+        console.log('Current user is:' , jwtToken.username); 
+        return jwtToken ; 
+
+    }, 
+
     login: async (username, password) => {
         let dbUser = await app.core().mongo.db().collection('users').findOne({username: username});
         console.log('Dbuser' , dbUser); 
@@ -47,5 +54,25 @@ module.exports = {
             roles: []
         }).then(() => this.login(username, password)) ;  
         
+    }, 
+
+
+    getProfile: async (userJWT) => {
+        return  app.core().mongo.db().collection('users').findOne({username: userJWT.username}).then((rec)=>{
+            
+            return rec.profile || {}  ; 
+        }); 
+    },
+
+    saveProfile: async (userJWT, profile) =>{
+        console.log('Updating profile for ' , userJWT , profile) ; 
+        return dbUser = await app.core().mongo.db().collection('users').updateOne(
+            {username: userJWT.username} , 
+            {
+                $set: {
+                    profile : profile 
+                }
+            });
     }
+
 }
