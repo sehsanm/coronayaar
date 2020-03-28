@@ -13,6 +13,7 @@ import Register from './app/login/Register';
 import ProfileOrg from './app/profile/Profile';
 import UserList from './app/admin/UserList' ; 
 import TopAlert from './app/home/TopAlert';
+import RequestForm from './app/request/RequestForm';
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
             <Route path="/register" ><Register /></Route>
             <Route path="/profile" ><ProfileOrg /></Route>
             <Route path="/users" ><UserList /></Route>
+            <Route path="/request" ><RequestForm /></Route>
             <Route path="/" ><Route/><Browse /></Route>
             </Switch>
 

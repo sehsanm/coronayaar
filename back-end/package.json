@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start-dev": "nodemon ./src/main.js  ../front-end/build",
-    "start": "node ./src/main.js"
+    "start": "node ./src/core.js"
   },
   "author": "",
   "license": "ISC",
