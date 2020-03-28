@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "cd ./front-end && npm install && npm run build && cd .. & cd back-end && npm install && cd ..",
-    "start" : "node ./back-end/src/main.js" 
+    "start" : "node ./back-end/src/core.js" 
   },
   "author": "",
   "license": "ISC"
