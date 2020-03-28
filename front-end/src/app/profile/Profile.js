@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Refdata from "../../services/Refdata";
-import ProfileService from '../../services/Profile' ; 
+import UserService from '../../services/UserService' ; 
 import { useHistory } from "react-router-dom";
 import { FormControl, FormHelperText, MenuItem } from "@material-ui/core";
 
@@ -47,15 +47,16 @@ export default function ProfileOrg(props) {
   let [orgDescription, setOrgDescription] = useState("");
   let [provinceList, setProvinceList] = useState([]);
   let [cityList, setCityList] = useState([]);
-
+  let [orgType, setOrgType] = useState('' ); 
   useEffect(() => {
     Refdata.getProvinces().then(lst => setProvinceList(lst));
-    ProfileService.getProfile().then((res)=> {
+    UserService.getProfile().then((res)=> {
       let p = res.data ; 
       setOrgName(p.orgName) ; 
       setOrgDescription(p.orgDescription) ; 
       setOrgCity(p.orgCity) ; 
       setOrgProvince(p.orgProvince);  
+      setOrgType(p.orgType) ;
       if(p.orgProvince !== null  && p.orgProvince !== '') {
         console.log('City Selected!')
         Refdata.getCities(p.orgProvince).then(lst => setCityList(lst));  
@@ -86,12 +87,13 @@ export default function ProfileOrg(props) {
   }
 
   function saveProfile() {
-    ProfileService.saveProfile({
+    UserService.saveProfile({
       orgName : orgName , 
       orgCity : orgCity , 
       orgDescription : orgDescription, 
       orgProvince : orgProvince , 
-      orgCity : orgCity 
+      orgCity : orgCity , 
+      orgType : orgType 
     }).then(()=> history.push('/dashboard'))
     .catch((err)=>{
       console.log('Some Error' , err);
@@ -110,6 +112,20 @@ export default function ProfileOrg(props) {
           اطلاعات زیر برای تایید کاربر شما توسط ادمین نیاز می باشد. 
         </Typography>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <FormControl className={classes.formControl}>
+              <InputLabel >سازمان</InputLabel>
+              <Select
+                value={orgType}
+                onChange={(e) => setOrgType(e.target.value)}
+              >
+                <MenuItem key="1"  value="hospital">مرکز درمانی</MenuItem>
+                <MenuItem key="2"  value="charity">خیریه</MenuItem>
+                <MenuItem key="3"  value="other">سایر</MenuItem>                
+              </Select>
+              <FormHelperText>سازمانی که شما در این سامانه نمایندگی می کنید</FormHelperText>
+            </FormControl>
+          </Grid>          
           <Grid item xs={12}>
             <TextField
               className={classes.elements}  

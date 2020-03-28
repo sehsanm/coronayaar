@@ -7,6 +7,12 @@ var AuthInfo = function(userInfo) {
         return userInfo !== null ; 
     }
 
+    ret.isAdmin = function() {
+        if (ret.user.roles !== null && ret.user.roles.indexOf('admin') >= 0 )
+            return true ; 
+        return false ; 
+    }
+
     ret.user = userInfo ;
 
     return ret 

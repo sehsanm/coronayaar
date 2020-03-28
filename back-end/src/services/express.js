@@ -10,6 +10,10 @@ module.exports =  (services) => {
 
         let  exp =  express() ;      
         exp.use(express.static(FRONT_DIR))
+        .use((req, res, next) => {
+            console.log(req.method , req.body);  
+            next() ; 
+        })
         .use(express.json()) // for parsing application/json
         .use((req, res, next) => {
             res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from

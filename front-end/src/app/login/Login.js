@@ -3,7 +3,7 @@ import { Paper,  Grid, TextField, Button, FormControlLabel, Checkbox } from '@ma
 import { Face, Fingerprint } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom' ; 
-import Auth from '../../services/Auth'; 
+import Auth from '../../services/AuthService';
 
 const styles = makeStyles( theme => ({
     div: {

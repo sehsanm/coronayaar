@@ -2,7 +2,7 @@ import React from 'react';
 import TypoGraphy from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import authProvider from '../services/Auth' ; 
+import authProvider from '../services/AuthService' ; 
 import Button  from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';

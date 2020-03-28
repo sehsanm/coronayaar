@@ -1,4 +1,4 @@
-import Auth from './Auth'
+import Auth from './AuthService'
 import axios from 'axios'
 var Communicator = function() {
     const endpoint = process.env.REACT_APP_API_ENDPOINT ;

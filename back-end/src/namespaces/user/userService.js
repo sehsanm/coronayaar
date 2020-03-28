@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken') ;
-const app = require('../../app')
+const app = require('../../app');
+const objectUtil = require('../../utils/ObjectUtil');
+ObjectID = require('mongodb').ObjectID ; 
+
 function calculateHash(password, salt) {
     return password ; 
 }
@@ -51,15 +54,14 @@ module.exports = {
             name: name, 
             salt: username, 
             password : calculateHash(password, username) , 
-            roles: []
+            roles: [] , 
         }).then(() => this.login(username, password)) ;  
         
     }, 
 
 
     getProfile: async (userJWT) => {
-        return  app.core().mongo.db().collection('users').findOne({username: userJWT.username}).then((rec)=>{
-            
+        return  app.core().mongo.db().collection('users').findOne({username: userJWT.username}).then((rec)=>{            
             return rec.profile || {}  ; 
         }); 
     },
@@ -73,6 +75,28 @@ module.exports = {
                     profile : profile 
                 }
             });
+    },
+
+    getAllUsers: (userJWT, filter) => {
+        console.log('Get All Users'); 
+        return new Promise((resolve, reject) => {
+            app.core().mongo.db().collection('users').find({}).toArray((err, docs)=>{
+                if (err){
+                    reject(err) ;
+                    return; 
+                } 
+                const fields = [ 'username' , 'name' , 'profile' , 'status' ,'_id' ,"roles"] ; 
+                resolve(docs.map((item)=> objectUtil.objectFilter(item, fields)));             
+            });    
+        })
+    }, 
+    
+    updateUser: (userJWT, userId , user)=>{
+        console.log(user , userId , objectUtil.objectFilter(user, ["status", "name" , "roles"])) ; 
+        return app.core().mongo.db().collection('users').updateOne({_id: ObjectID(userId)} , {
+            $set : objectUtil.objectFilter(user, ["status", "name" , "roles"])
+        } );    
     }
+
 
 }
