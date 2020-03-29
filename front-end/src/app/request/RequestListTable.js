@@ -4,33 +4,64 @@ import authProvider from '../../services/AuthService';
 import userService from '../../services/UserService';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
-import {IconButton, Chip, Avatar} from '@material-ui/core'
+import {IconButton, Chip, Avatar, CardContent, Card , Typography} from '@material-ui/core'
 
 
+function detailPanelRender(rowData) { 
+    return (<Card>
+        <CardContent>
+            <Typography variant="body2" component="p">{rowData.org.orgName}</Typography>
+            <Typography variant="body2" component="p">{rowData.org.orgDescription}</Typography>
+        </CardContent>
+    </Card>); 
+}
 
 function RequestListTable(props) {
     return (
         <div>
             <MaterialTable
+                title="درخواست های کمک ثبت شده در سیستم"
+                detailPanel=
+                {[{
+                    render: detailPanelRender, 
+                }]}
+
                 options={
                     {
                         search: true,
                     }
                 } 
                 columns={[
-                    {title: "مورد نیاز" , field: "type"}, 
-                    {title: "تعداد" , field: "quantity"}, 
-                    {title: "فوریت" , field: "urgency" }, 
-                    {title: "استان" , field: "org.orgProvince"},
-                    {title: "شهر" , field: "org.orgCity"},
-                    {title: "نام مرکز" , field: "org.orgName"}, 
-                    {title: "وضعیت" , field: "status", render: (rawdata) => {
-                        return(<IconButton aria-label="delete" >
-                            {rawdata.status === 'approved' && <CheckCircleOutlineIcon fontSize="small" />}
-                            {rawdata.status !== 'approved' && <CancelIcon fontSize="small" />}
-                        </IconButton>) ;                        
-                    }},             
+                    {title: "مورد نیاز" , field: "type" , cellStyle: {textAlign:"center" }}, 
+                    {title: "تعداد" , field: "quantity" , cellStyle:{textAlign:"center" }}, 
+                    {title: "فوریت" , field: "urgency" , cellStyle: {textAlign:"center" }}, 
+                    {title: "استان" , field: "org.orgProvince", cellStyle: {textAlign:"center" }},
+                    {title: "شهر" , field: "org.orgCity", cellStyle: {textAlign:"center" }},
+                    {title: "نام مرکز" , field: "org.orgName", cellStyle: {textAlign:"center" }}, 
+                                 
                 ]}
+
+                localization={{
+                    pagination: {
+                        labelDisplayedRows: '{from}-{to} از {count}' , 
+                        labelRowsSelect: 'نتیجه'
+                    },
+                    toolbar: {
+                        nRowsSelected: '{0}مورد انتخاب شده ' , 
+                        searchPlaceholder: "جستجو"
+                    },
+                    header: {
+                        actions: 'Actions'
+                    },
+
+                    body: {
+                        emptyDataSourceMessage: 'هیچ نتیجه ای یافت  نشد',
+                        filterRow: {
+                            filterTooltip: 'Filter'
+                        }
+                    }
+                }}
+                
                 data={props.data}
             />
         </div>

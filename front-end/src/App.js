@@ -15,6 +15,7 @@ import UserList from './app/admin/UserList' ;
 import Dashboard from './app/home/Dashboard';
 import RequestForm from './app/request/RequestForm';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import RequestList from './app/request/RequestList';
 
 function App(props) {
     return (
@@ -29,7 +30,7 @@ function App(props) {
             <Route path="/users" ><UserList /></Route>
             <Route path="/request" ><RequestForm /></Route>
             <Route path="/dashboard" ><Dashboard /></Route>
-            <Route path="/" ><Route/><Browse /></Route>
+            <Route path="/" ><Route/><RequestList /></Route>
             </Switch>
 
           </Router>

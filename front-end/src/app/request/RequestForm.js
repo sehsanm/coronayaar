@@ -4,7 +4,7 @@ import formData from './RequestFormData' ;
 import StaticForm from '../../components/StaticForm';
 import UserService from '../../services/UserService'  ;
 import RequestService from '../../services/RequestService'  ;
-import { Button , Container, Paper, Typography} from '@material-ui/core';
+import { Button , Container, Paper, Typography, LinearProgress} from '@material-ui/core';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -20,9 +20,10 @@ function RequestForm(props) {
     let form = formData ; 
     let [value, setValue] = useState({}) ; 
     let [currentUser, setCurrentUser] = useState({}) ; 
+    let [loading , setLoading] = useState(true) ; 
     
     useEffect(() => {
-        UserService.getProfile().then((u) => setCurrentUser(u.data)) ; 
+        UserService.getProfile().then((u) => setCurrentUser(u.data)).then(() => setLoading(false)) ; 
     } , [] ) ; 
 
 
@@ -34,11 +35,15 @@ function RequestForm(props) {
 
 
     function saveRequest() {
+        
         RequestService.saveRequest(value).then(()=>history.push('/dashboard')) ; 
     }
 
     console.log(form) ;
     console.log('-->' , currentUser.status);
+    if(loading) {
+        return <LinearProgress /> 
+    }
     if (currentUser.status === 'approved') { 
         return (
             <Container maxWidth="xs">
