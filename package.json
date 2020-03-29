@@ -1,8 +1,11 @@
 {
-  "name": "sat-website",
+  "name": "crisis-website",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "12.11.1"
+  },
   "scripts": {
     "build": "cd ./front-end && npm install && npm run build && cd .. & cd back-end && npm install && cd ..",
     "start" : "node ./back-end/src/core.js" 
