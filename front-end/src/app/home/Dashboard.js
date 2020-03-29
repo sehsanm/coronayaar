@@ -20,6 +20,7 @@ import RequestForm from "../request/RequestForm";
 import UserService from '../../services/UserService' ; 
 import UserList from "../admin/UserList";
 import ProfileOrg from '../profile/Profile';
+import RequestList from '../request/RequestList' ; 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -111,12 +112,16 @@ function Dashboard(props) {
 
   function getPageComponent() {
       if (page === 'MyRequests')
-        return <div/>
+        return <RequestList  myRequests={true}/>
+      else if (page === 'ِAllRequests')
+        return <RequestList />
       else if (page === 'AllUsers')
         return <UserList />
       else if (page === 'Profile')
         return <ProfileOrg />
-      return <RequestForm />
+      else if (page === 'CreateRequest')
+        return <RequestForm /> 
+      return <div/>
   }
   return (
     <div className={classes.root}>

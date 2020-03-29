@@ -25,6 +25,7 @@ var Communicator = function() {
                 token = Auth.getAuth().user.jwt ; 
             } 
             return axios.get(endpoint + api , {
+                params: params, 
                 headers : {
                     Authorization : token
                 }

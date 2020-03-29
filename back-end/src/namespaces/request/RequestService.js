@@ -8,7 +8,7 @@ async function createRequest(jwt, obj) {
     let user = await userService.getProfile(jwt) ; 
     if (user.status != 'approved')
         return Promise.reject("User is not Approved!" ) 
-    let req = {...obj,  userId: user._id , org: {...user.profile} , status: 'approved' } ; 
+    let req = {...obj,  userId: user._id , org: {...user.profile} , status: 'approved' ,  proc_status: 'active' } ; 
     return reqCollection().insertOne(req) ; 
 }
 async function updateRequest(jwt, reqId , obj) {
@@ -21,8 +21,11 @@ async function updateRequest(jwt, reqId , obj) {
 }
 
 async function getAllRequests(jwt , filter) {
+    console.log(filter); 
+    if (filter.userId) 
+        filter.userId = ObjectID(filter.userId); 
     return new Promise((resolve, reject) => {
-        reqCollection().find({}).toArray((err, docs)=>{
+        reqCollection().find(filter).toArray((err, docs)=>{
             if (err)
                 reject(err); 
             else

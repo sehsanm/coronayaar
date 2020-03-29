@@ -10,8 +10,8 @@ let ProfileService = function() {
         return Communicator.post(`/request/${requestId}` ,request) ; 
     }
 
-    ret.getAllRequests =  async () => {
-        return Communicator.get(`/request`) ; 
+    ret.getAllRequests =  async (filter) => {
+        return Communicator.get(`/request` , filter ) ; 
     }
 
     return ret;  

@@ -9,10 +9,10 @@ function calculateHash(password, salt) {
 }
 
 function getCollection() {
-    return app
+  return app
     .core()
     .mongo.db()
-    .collection("users") ; 
+    .collection("users");
 }
 module.exports = {
   getCurrentUser: token => {
@@ -22,16 +22,11 @@ module.exports = {
   },
 
   login: async (username, password) => {
-    let dbUser = await getCollection()
-      .findOne({ username: username });
+    let dbUser = await getCollection().findOne({ username: username });
     console.log("Dbuser", dbUser);
     if (dbUser !== null) {
       if (calculateHash(password, dbUser.slat) === dbUser.password) {
-        let userObject = {
-          username: username,
-          name: dbUser.name,
-          roles: dbUser.roles
-        };
+        let userObject = objectUtil.objectFilter(dbUser, PUBLIC_FIELDS);
         let jwtToken;
         try {
           jwtToken = jwt.sign(userObject, app.core().env.user.jwtSecret);
@@ -59,7 +54,6 @@ module.exports = {
       console.log("User Already Exists:", dbUser);
       return Promise.reject("User Already Exist");
     }
-
     return getCollection()
       .insertOne({
         username: username,
@@ -82,7 +76,6 @@ module.exports = {
   saveProfile: async (userJWT, profile) => {
     console.log("Updating profile for ", userJWT, profile);
     return (dbUser = await getCollection()
-      .collection("users")
       .updateOne(
         { username: userJWT.username },
         {
@@ -94,17 +87,26 @@ module.exports = {
   },
 
   getAllUsers: (userJWT, filter) => {
-    console.log('Get All Users'); 
+    console.log("Get All Users");
     return new Promise((resolve, reject) => {
-        getCollection().find({}).toArray((err, docs)=>{
-            if (err){
-                reject(err) ;
-                return; 
-            } 
-            const fields = [ 'username' , 'name' , 'profile' , 'status' ,'_id' ,"roles"] ; 
-            resolve(docs.map((item)=> objectUtil.objectFilter(item, fields)));             
-        });    
-    })
+      getCollection()
+        .find({})
+        .toArray((err, docs) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          const fields = [
+            "username",
+            "name",
+            "profile",
+            "status",
+            "_id",
+            "roles"
+          ];
+          resolve(docs.map(item => objectUtil.objectFilter(item, fields)));
+        });
+    });
   },
 
   updateUser: (userJWT, userId, user) => {
@@ -113,12 +115,11 @@ module.exports = {
       userId,
       objectUtil.objectFilter(user, ["status", "name", "roles"])
     );
-    return getCollection()
-      .updateOne(
-        { _id: ObjectID(userId) },
-        {
-          $set: objectUtil.objectFilter(user, ["status", "name", "roles"])
-        }
-      );
+    return getCollection().updateOne(
+      { _id: ObjectID(userId) },
+      {
+        $set: objectUtil.objectFilter(user, ["status", "name", "roles"])
+      }
+    );
   }
 };

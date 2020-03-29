@@ -51,7 +51,7 @@ export default function ProfileOrg(props) {
   useEffect(() => {
     Refdata.getProvinces().then(lst => setProvinceList(lst));
     UserService.getProfile().then((res)=> {
-      let p = res.data.profile ; 
+      let p = res.data.profile || {} ; 
       setOrgName(p.orgName) ; 
       setOrgDescription(p.orgDescription) ; 
       setOrgCity(p.orgCity) ; 
