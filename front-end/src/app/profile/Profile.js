@@ -51,7 +51,7 @@ export default function ProfileOrg(props) {
   useEffect(() => {
     Refdata.getProvinces().then(lst => setProvinceList(lst));
     UserService.getProfile().then((res)=> {
-      let p = res.data ; 
+      let p = res.data.profile ; 
       setOrgName(p.orgName) ; 
       setOrgDescription(p.orgDescription) ; 
       setOrgCity(p.orgCity) ; 
@@ -113,7 +113,7 @@ export default function ProfileOrg(props) {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.formControl} fullWidth>
               <InputLabel >سازمان</InputLabel>
               <Select
                 value={orgType}
@@ -152,7 +152,7 @@ export default function ProfileOrg(props) {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.formControl} fullWidth>
               <InputLabel >استان</InputLabel>
               <Select
                 id="demo-simple-select-helper"
@@ -165,7 +165,7 @@ export default function ProfileOrg(props) {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.formControl} fullWidth>
               <InputLabel >شهر</InputLabel>
               <Select
                 id="demo-simple-select-helper"

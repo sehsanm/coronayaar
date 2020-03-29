@@ -7,5 +7,6 @@ module.exports = (services) => {
       getCurrentUser : (request) => {
          return userApi.getCurrentUser(request) ; 
       }
+
    }) ; 
 } 

@@ -12,12 +12,11 @@ import Login from './app/login/Login';
 import Register from './app/login/Register';
 import ProfileOrg from './app/profile/Profile';
 import UserList from './app/admin/UserList' ; 
-import TopAlert from './app/home/TopAlert';
+import Dashboard from './app/home/Dashboard';
 import RequestForm from './app/request/RequestForm';
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-class App extends Component {
-  render() {
-
+function App(props) {
     return (
       <div id='app-div'>
        <ThemeProvider>
@@ -29,6 +28,7 @@ class App extends Component {
             <Route path="/profile" ><ProfileOrg /></Route>
             <Route path="/users" ><UserList /></Route>
             <Route path="/request" ><RequestForm /></Route>
+            <Route path="/dashboard" ><Dashboard /></Route>
             <Route path="/" ><Route/><Browse /></Route>
             </Switch>
 
@@ -37,6 +37,5 @@ class App extends Component {
 
       </div>
     );
-  }
-}
+} 
 export default App;

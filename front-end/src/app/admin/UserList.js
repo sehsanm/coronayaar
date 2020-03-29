@@ -53,8 +53,14 @@ function UserList(props) {
     }
     return (
         <div>
-            <MaterialTable 
+            <MaterialTable
+                options={
+                    {
+                        search: true,
+                    }
+                } 
                 columns={[
+
                     {title: "نام کاربری" , field: "username"}, 
                     {title: "نام" , field: "name"}, 
                     {title: "نقش ها" , field: "roles" , render: (rawdata) => {

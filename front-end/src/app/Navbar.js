@@ -92,7 +92,7 @@ function NavBar(props) {
     }
 
     return ( 
-        <AppBar color="primary" position="static">
+        <AppBar color="primary" position="sticky" >
             <Toolbar>
             <IconButton edge="start"  color="inherit" aria-label="menu" className={classes.menuIcon}>
                 <MenuIcon />

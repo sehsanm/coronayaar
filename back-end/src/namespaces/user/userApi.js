@@ -57,5 +57,6 @@ let updateUser = (request, response) => {
 }
 
 module.exports = {
-    init: init  
+    init: init, 
+    getCurrentUser: getCurrentUser   
 }

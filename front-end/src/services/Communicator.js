@@ -1,7 +1,7 @@
 import Auth from './AuthService'
 import axios from 'axios'
 var Communicator = function() {
-    const endpoint = process.env.REACT_APP_API_ENDPOINT ;
+    const endpoint = process.env.REACT_APP_API_ENDPOINT || "" ;
 
     return {
         post : (api , params) => {
