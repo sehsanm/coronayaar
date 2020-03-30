@@ -1,5 +1,5 @@
 
-const userService = require('./userService') ; 
+const userService = require('./UserService') ; 
 const objectUtil = require('../../utils/ObjectUtil');
 const apiUtil = require('../../utils/ApiUtil');
 
