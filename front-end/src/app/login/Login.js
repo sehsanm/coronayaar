@@ -28,7 +28,7 @@ function Login(props) {
             Auth.login(username, password).then(()=>{
                 history.push('/profile')
             }).catch(e => {
-
+                console.log('Fuuuuck!'); 
             })
         }
 

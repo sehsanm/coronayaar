@@ -15,7 +15,7 @@ function updateRequest(request, response) {
 }
 
 function getAllRequests(request, response) {
-    ApiUtil.respond(RequestService.getAllRequests(app.core().user.getCurrentUser(request),
+    ApiUtil.respond(RequestService.getAllRequests(null,
         request.query), 
     response);          
 }

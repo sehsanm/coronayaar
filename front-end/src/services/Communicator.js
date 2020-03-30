@@ -13,7 +13,10 @@ var Communicator = function() {
             } 
 
             return axios.post(endpoint + api , params, {
-                headers : headers
+                headers : headers, 
+                validateStatus: function (status) {
+                    return status >= 200 && status < 300; // default
+                  }
             }) ; 
         },
 
@@ -28,6 +31,9 @@ var Communicator = function() {
                 params: params, 
                 headers : {
                     Authorization : token
+                }, 
+                validateStatus: function (status) {
+                    return status >= 200 && status < 300; // default
                 }
             }) ; 
 

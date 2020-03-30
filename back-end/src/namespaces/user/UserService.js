@@ -37,9 +37,10 @@ async function login (username, password) {
       return Promise.resolve({ ...userObject, jwt: jwtToken });
     } else {
       console.log(calculateHash(password, dbUser.slat), dbUser.password);
+      
     }
   }
-  return Promise.reject("Invalid username/password");
+  return Promise.reject(apiUtil.Errors.Security("Invalid Username or Password"));
 }
 
 module.exports = {

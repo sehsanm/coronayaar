@@ -44,7 +44,7 @@ var authProvider = function() {
                     console.log('xxx' , result.data) ; 
                     currentAuth = AuthInfo(result.data) ;
                     localStorage.setItem('token' , JSON.stringify(result.data)) ;    
-                }).catch((error) => console.log(error));     
+                });     
         }, 
         register : (username, password , name) => {
             return Communicator.post('/register',
@@ -55,7 +55,7 @@ var authProvider = function() {
                 })
                 .then((result)=>{
                     currentAuth = result  
-                }).catch((error) => console.log(error));     
+                });     
         }, 
         logout : () => {
             localStorage.removeItem('token') ; 

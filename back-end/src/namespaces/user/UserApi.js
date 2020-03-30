@@ -17,7 +17,7 @@ let getCurrentUser = (request) => {
     return userService.getCurrentUser(request.header('Authorization')) ; 
 }
 
-let login =  (request, response, next) => {
+let login =  (request, response) => {
     let user = userService.login(request.body.username, 
         request.body.password) ;
     console.log('user:' , user);
