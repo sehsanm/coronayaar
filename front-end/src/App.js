@@ -7,7 +7,7 @@ import Browse from './app/home/Browse';
 import { BrowserRouter as Router,
   Switch,
   Route,
-  Link } from 'react-router-dom';
+  Link, HashRouter } from 'react-router-dom';
 import Login from './app/login/Login';
 import Register from './app/login/Register';
 import ProfileOrg from './app/profile/Profile';
@@ -21,7 +21,7 @@ function App(props) {
     return (
       <div id='app-div'>
        <ThemeProvider>
-          <Router>
+          <HashRouter>
             <NavBar/>
             <Switch>
             <Route path="/login" ><Login /></Route>
@@ -33,7 +33,7 @@ function App(props) {
             <Route path="/" ><Route/><RequestList /></Route>
             </Switch>
 
-          </Router>
+          </HashRouter>
        </ThemeProvider>
 
       </div>
