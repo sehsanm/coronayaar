@@ -54,14 +54,19 @@ module.exports = {
       console.log("User Already Exists:", dbUser);
       return Promise.reject("User Already Exist");
     }
+    let user = {
+      username: username,
+      name: name,
+      salt: username,
+      password: calculateHash(password, username),
+      roles: [] 
+    }
+    //First user registration will be marked as admin 
+    if (username === 'admin'){
+      user.roles=['admin'] ; 
+    }
     return getCollection()
-      .insertOne({
-        username: username,
-        name: name,
-        salt: username,
-        password: calculateHash(password, username),
-        roles: []
-      })
+      .insertOne(user)
       .then(() => this.login(username, password));
   },
 
