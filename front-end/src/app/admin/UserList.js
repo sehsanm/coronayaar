@@ -45,7 +45,7 @@ function UserList(props) {
             avatar={<Avatar>A</Avatar>}
             label="مدیر سیستم"
             clickable
-            color={(userInfo.roles && userInfo.roles.indexOf('admin') >= 0? "primary": "secondary") }
+            color={(userInfo.roles && userInfo.roles.indexOf('admin') >= 0? "secondary": "primary") }
             onClick={toggleRole('admin' , userInfo)}
             
             />

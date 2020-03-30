@@ -1,5 +1,5 @@
-let userService = require('./userService'); 
-let userApi = require('./userApi')
+let userService = require('./UserService'); 
+let userApi = require('./UserApi')
 
 module.exports = (services) => {
    userApi.init(services) ;
@@ -7,6 +7,5 @@ module.exports = (services) => {
       getCurrentUser : (request) => {
          return userApi.getCurrentUser(request) ; 
       }
-
    }) ; 
 } 

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const app = require("../../app");
 const objectUtil = require("../../utils/ObjectUtil");
+const apiUtil = require("../../utils/ApiUtil");
 ObjectID = require("mongodb").ObjectID;
 const PUBLIC_FIELDS = ["username", "name", "profile", "status", "_id", "roles"];
 
@@ -14,6 +15,33 @@ function getCollection() {
     .mongo.db()
     .collection("users");
 }
+
+function assertRole(jwtToken, role)  {
+  if (jwtToken.roles.indexOf(role) == -1)
+    throw  apiUtil.Errors.Security('User does not have the role' +  role) ; 
+}
+
+async function login (username, password) {
+  let dbUser = await getCollection().findOne({ username: username });
+  console.log("Dbuser", dbUser);
+  if (dbUser !== null) {
+    if (calculateHash(password, dbUser.slat) === dbUser.password) {
+      let userObject = objectUtil.objectFilter(dbUser, PUBLIC_FIELDS);
+      let jwtToken;
+      try {
+        jwtToken = jwt.sign(userObject, app.core().env.user.jwtSecret);
+        console.log({ ...userObject, jwt: jwtToken });
+      } catch (err) {
+        console.log("failed to sign:", userObject, err);
+      }
+      return Promise.resolve({ ...userObject, jwt: jwtToken });
+    } else {
+      console.log(calculateHash(password, dbUser.slat), dbUser.password);
+    }
+  }
+  return Promise.reject("Invalid username/password");
+}
+
 module.exports = {
   getCurrentUser: token => {
     jwtToken = jwt.verify(token, app.core().env.user.jwtSecret);
@@ -21,26 +49,8 @@ module.exports = {
     return jwtToken;
   },
 
-  login: async (username, password) => {
-    let dbUser = await getCollection().findOne({ username: username });
-    console.log("Dbuser", dbUser);
-    if (dbUser !== null) {
-      if (calculateHash(password, dbUser.slat) === dbUser.password) {
-        let userObject = objectUtil.objectFilter(dbUser, PUBLIC_FIELDS);
-        let jwtToken;
-        try {
-          jwtToken = jwt.sign(userObject, app.core().env.user.jwtSecret);
-          console.log({ ...userObject, jwt: jwtToken });
-        } catch (err) {
-          console.log("failed to sign:", userObject, err);
-        }
-        return Promise.resolve({ ...userObject, jwt: jwtToken });
-      } else {
-        console.log(calculateHash(password, dbUser.slat), dbUser.password);
-      }
-    }
-    return Promise.reject("Invalid username/password");
-  },
+  assertRole: assertRole, 
+  login: login, 
 
   register: async (username, password, name) => {
     console.log("Registring:", username, password, name);
@@ -67,7 +77,7 @@ module.exports = {
     }
     return getCollection()
       .insertOne(user)
-      .then(() => this.login(username, password));
+      .then(() => login(username, password));
   },
 
   getProfile: async userJWT => {
@@ -91,7 +101,8 @@ module.exports = {
       ));
   },
 
-  getAllUsers: (userJWT, filter) => {
+  getAllUsers:async (userJWT, filter) => {
+    assertRole(userJWT , 'admin') ; 
     console.log("Get All Users");
     return new Promise((resolve, reject) => {
       getCollection()
@@ -120,6 +131,11 @@ module.exports = {
       userId,
       objectUtil.objectFilter(user, ["status", "name", "roles"])
     );
+    if(userJWT._id !== userId){
+      //Only admin can change other users
+      assertRole(userJWT , 'admin')
+    }
+
     return getCollection().updateOne(
       { _id: ObjectID(userId) },
       {

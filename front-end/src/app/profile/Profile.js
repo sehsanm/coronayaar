@@ -89,7 +89,6 @@ export default function ProfileOrg(props) {
   function saveProfile() {
     UserService.saveProfile({
       orgName : orgName , 
-      orgCity : orgCity , 
       orgDescription : orgDescription, 
       orgProvince : orgProvince , 
       orgCity : orgCity , 
