@@ -54,7 +54,8 @@ var authProvider = function() {
                     name: name  
                 })
                 .then((result)=>{
-                    currentAuth = result  
+                    localStorage.setItem('token' , JSON.stringify(result.data)) ;    
+                    currentAuth = AuthInfo(result.data) ;   
                 });     
         }, 
         logout : () => {
