@@ -40,12 +40,22 @@ function StaticForm(props) {
     
     function getFieldGrid(field) {
         let controls = getFieldInput(field) ;
-        console.log(controls) ;
         return <Grid item xs={12}>{controls}</Grid>
+    }
+
+    function getSelectItems(field) {
+        let ops =[] ;
+        if (field.options)
+            ops = field.options; 
+        if (field.dynamicOptions) {
+            ops = props.optionProvider(field.name) ; 
+            console.log('dynamic options:' , ops);
+        }
+        return ops.map((i)=><MenuItem key={field.name + i.value}  value={i.value}>{i.label}</MenuItem>); 
     }
     
     function getFieldInput(field) {
-        if(field.options !== undefined && field.options !== null) {
+        if(field.options || field.dynamicOptions) {
             console.log('Has option')
             return (
                 <FormControl className={classes.formControl} fullWidth>
@@ -54,8 +64,7 @@ function StaticForm(props) {
                     value={props.value[field.name]}
                     onChange={(e)=>props.onChange(field.name , e.target.value)}
                   >
-                    {field.options.map((i)=><MenuItem key={field.name + i.value}  value={i.value}>{i.label}</MenuItem>)}
-
+                      {getSelectItems(field)}
                   </Select>
                   <FormHelperText>{field.helper}</FormHelperText>
                 </FormControl>
@@ -116,10 +125,8 @@ function StaticForm(props) {
 
     function getFormBody() {
         let components = props.form.fields.map((field) => {
-            console.log(field) ; 
             return getFieldGrid(field);  
         }) ;
-        console.log(components) ; 
         return components ; 
     }
 

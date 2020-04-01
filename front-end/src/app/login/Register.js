@@ -12,7 +12,7 @@ import Container from "@material-ui/core/Container";
 import Auth from "../../services/AuthService";
 import { useHistory } from "react-router-dom";
 import ErrorDisplay from "../../components/ErrorDisplay";
-import Joi from "joi-browser";
+import Joi from "@hapi/joi";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -38,29 +38,30 @@ const schema = Joi.object({
   username: Joi.string()
     .alphanum()
     .min(5)
-    .required(),
+    .required().error(new Error ("نام کاربری حداقل ۵ حرفی باید باشد")),
   name: Joi.string()
     .min(5)
-    .required(),
-  password: Joi.string()
+    .required().error(new Error("نام خود را کامل وارد کنید. حداقل ۵ حرف")),
+  password: Joi.string() 
     .alphanum()
     .min(5)
-    .required()
-})
+    .required().error(new Error("رمز عبور باید حداقل   ۵  حرف باشد. "))
+});
+
 
 export default function Register() {
-  const classes = useStyles();
+
+    const classes = useStyles();
   const history = useHistory();
   let [username, setUsername] = useState("");
   let [name, setName] = useState("");
   let [password, setPassword] = useState("");
   let [errors, setErrors] = useState([]);
-
   function registerUser() {
-    let {err, value} = Joi.validate({username , password , name}, schema) ; 
-    console.log('Joi Err: ' ,err , value )
-    if (err){
-      setErrors(err.details.map(d => d.message)) ; 
+    let {error} = schema.validate({username: username , password: password , name:name }) ; 
+    console.log('Joi Err: ' ,error  ) ;
+    if (error){
+      setErrors([error.message]) ; 
     } else {
       Auth.register(username, password, name)
       .then(() => history.push("/profile"))
