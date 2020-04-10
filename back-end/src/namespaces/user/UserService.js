@@ -23,7 +23,6 @@ function assertRole(jwtToken, role)  {
 
 async function login (username, password) {
   let dbUser = await getCollection().findOne({ username: username });
-  console.log("Dbuser", dbUser);
   if (dbUser !== null) {
     if (calculateHash(password, dbUser.slat) === dbUser.password) {
       let userObject = objectUtil.objectFilter(dbUser, PUBLIC_FIELDS);
@@ -70,7 +69,9 @@ module.exports = {
       name: name,
       salt: username,
       password: calculateHash(password, username),
-      roles: [] 
+      roles: [] ,
+      status: 'pending', 
+      
     }
     //First user registration will be marked as admin 
     if (username === 'admin'){

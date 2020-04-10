@@ -30,7 +30,7 @@ function UserList(props) {
     }
     function toggleRole(role , userInfo) {
         return () => {
-            if (!userInfo.roles || userInfo.roles.indexOf(role) == -1) {
+            if (!userInfo.roles || userInfo.roles.indexOf(role) === -1) {
                 userService.addRole(userInfo,  role).then(loadUsers);
             }  else {
                 userService.removeRole(userInfo ,  role).then(loadUsers); 

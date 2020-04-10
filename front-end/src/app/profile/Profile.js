@@ -10,7 +10,7 @@ export default function ProfileOrg() {
   let [provinceList, setProvinceList] = useState([]);
   let [cityList, setCityList] = useState([]);
   let [value, setValue] = useState({});
-
+  let [errors, setErrors]  = useState([]) ;
   useEffect(() => {
     Refdata.getProvinces().then(lst => { 
       let ret = lst.map (i => ({value: i , label: i})) ;
@@ -19,7 +19,8 @@ export default function ProfileOrg() {
   
     UserService.getProfile().then(res => {
       let p = res.data.profile || {};
-      setValue(p);
+      console.log(res.data , p ) ; 
+      
       if (p.orgProvince !== null && p.orgProvince !== "") {
         console.log("City Selected!");
         Refdata.getCities(p.orgProvince).then(lst => { 
@@ -27,6 +28,8 @@ export default function ProfileOrg() {
           setCityList(ret); 
         }) ; 
       }
+      setValue(p);
+      console.log('-->' , p); 
       return p;
     });
   }, []);
@@ -40,7 +43,7 @@ export default function ProfileOrg() {
   function valueChange(fieldName, v) {
     let x = { ...value };
     if (
-      fieldName == "orgProvince" &&
+      fieldName === "orgProvince" &&
       value[fieldName] !== v &&
       v !== null &&
       v !== ""
@@ -51,25 +54,37 @@ export default function ProfileOrg() {
       }) ; 
     }
     x[fieldName] = v;
+    console.log('xxx', fieldName, ' ', v); 
     setValue(x);
+
   }
 
   function saveProfile() {
+    if (ProfileForm.schema) {
+      let {error} = ProfileForm.schema.validate(value) ; 
+      if (error) {
+        setErrors([error.message]); 
+        return ; 
+      }else {
+        setErrors([]) ;
+      }
+    }
     UserService.saveProfile(value)
       .then(() => history.push("/dashboard"))
       .catch(err => {
-        console.log("Some Error", err);
+        setErrors([err + ""]);
       });
   }
   return (
     <Container maxWidth="xs">
       <StaticForm
         form={ProfileForm}
-        title="Form"
-        subtitle="Form"
+        title="فرم اطلاعات سازمان"
+        subtitle="برای تایید ادمین به اطلاعات زیر نیازمندیم"
         onChange={valueChange}
         value={value}
         optionProvider={optionProvider}
+        errors={errors}
       />
       <Button
         type="submit"

@@ -31,7 +31,7 @@ let ProfileService = function() {
     ret.addRole = async (userInfo , role) => {
         console.log('Add role: ' , role);
         let nr = userInfo.roles ||  [] ;
-        if (nr.indexOf(role) == -1)
+        if (nr.indexOf(role) === -1)
             nr.push(role) ;   
 
         return ret.updateUser({_id:userInfo._id , roles : nr }) ; 

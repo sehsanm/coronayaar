@@ -9,10 +9,7 @@ const themeOptions = {
   typography: {
     useNextVariants: true,
     fontFamily: 'IRANSans',
-  },
-  palette: {
-    primary: { main: '#313b44', contrastText: '#fff' },
-    secondary: { main: '#FFCC01' },
+    fontSize: 10  
   },
 };
 

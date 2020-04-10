@@ -1,3 +1,4 @@
+import Joi from '@hapi/joi' ;
 export default  {
     fields : [
         {
@@ -28,6 +29,11 @@ export default  {
             label: 'تعداد مورد نیاز' , 
         },
         {
+            name: 'requiredBy' , 
+            type: 'date', 
+            label: 'تاریخ نیازمندی' , 
+        },
+        {
             name: 'urgency' , 
             type: 'text', 
             label: 'فوریت نیازمندی' , 
@@ -44,5 +50,12 @@ export default  {
             type: 'longtext', 
             label: 'توضیحات' , 
         },
-    ]
+    ], 
+    schema: Joi.object({
+        type: Joi.string().required().error(new Error('نوع در خواست را تعیین کنید')), 
+        quantity: Joi.number().required().error(new Error('تعداد اقلام مورد نیاز را وارد کنید')), 
+        requiredBy: Joi.any().required().error(new Error('تاریخ نیازمندی را وارد کنید')),
+        urgency: Joi.string().required().error(new Error('فوریت را وارد کنید.')),
+        description: Joi.string(),
+    }),
 }
