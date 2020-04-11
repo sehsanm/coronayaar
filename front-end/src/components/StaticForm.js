@@ -87,10 +87,11 @@ function StaticForm(props) {
         </FormControl>
       );
     } else {
-      if (field.type === "text") {
+      if (field.type === "text" || field.type === "password") {
         return (
           <TextField
             className={classes.elements}
+            type={field.type}
             required
             fullWidth
             label={field.label}

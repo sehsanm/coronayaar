@@ -6,7 +6,12 @@ let createError = (type , message) => {
 }
 module.exports = {
     respond: (prom, response) => {
-        return prom.then((v)=> response.status(200).send(v)).
+        return prom.then((v)=> {
+            if (v && v.status && v.response) {
+                response.status(v.status).send(v.response) ; 
+            } else 
+                response.status(200).send(v) ;
+        }).
         catch((err) => {
             console.log(err); 
             if (err === null || err === undefined){

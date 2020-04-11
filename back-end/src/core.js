@@ -4,6 +4,7 @@ let servicesFactories = {
     env: require('./services/env'),
     mongo: require('./services/mongo'),
     express : require('./services/express'), 
+    sms: require('./services/sms'),
     user: require('./namespaces/user'),
     request: require('./namespaces/request'),
 }

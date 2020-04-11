@@ -37,26 +37,19 @@ var authProvider = function() {
     }
     return {
         getAuth : () => currentAuth , 
-        login : (username, password) => {
+        login : (username, password, verificationCode) => {
             return Communicator.post('/login' 
-                ,{username: username , password: password})
+                ,{username: username , password: password, verificationCode: verificationCode})
                 .then((result)=>{
                     console.log('xxx' , result.data) ; 
                     currentAuth = AuthInfo(result.data) ;
                     localStorage.setItem('token' , JSON.stringify(result.data)) ;    
                 });     
         }, 
-        register : (username, password , name) => {
+        register : (userInfo) => {
+            //Always returns 401 for verification 
             return Communicator.post('/register',
-                {
-                    username: username, 
-                    password: password,
-                    name: name  
-                })
-                .then((result)=>{
-                    localStorage.setItem('token' , JSON.stringify(result.data)) ;    
-                    currentAuth = AuthInfo(result.data) ;   
-                });     
+                userInfo) ; 
         }, 
         logout : () => {
             localStorage.removeItem('token') ; 

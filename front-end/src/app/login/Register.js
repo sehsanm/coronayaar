@@ -1,19 +1,13 @@
 import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
+import {Button, TextField} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Auth from "../../services/AuthService";
 import { useHistory } from "react-router-dom";
-import ErrorDisplay from "../../components/ErrorDisplay";
-import Joi from "@hapi/joi";
-
+import StaticForm from '../../components/StaticForm';
+import ObjectUtil from '../../components/ObjectUtil';
+import NumberUtil from '../../components/NumberUtil';
+import FormSchema from './RegisterFormData';
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -34,108 +28,89 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const schema = Joi.object({
-  username: Joi.string()
-    .alphanum()
-    .min(5)
-    .required().error(new Error ("نام کاربری حداقل ۵ حرفی باید باشد")),
-  name: Joi.string()
-    .min(5)
-    .required().error(new Error("نام خود را کامل وارد کنید. حداقل ۵ حرف")),
-  password: Joi.string() 
-    .alphanum()
-    .min(5)
-    .required().error(new Error("رمز عبور باید حداقل   ۵  حرف باشد. "))
-});
 
 
 export default function Register() {
 
-    const classes = useStyles();
-  const history = useHistory();
-  let [username, setUsername] = useState("");
-  let [name, setName] = useState("");
-  let [password, setPassword] = useState("");
+  const classes = useStyles();
+  const history = useHistory(); 
+  let [value, setValue] = useState({});
   let [errors, setErrors] = useState([]);
+  let [showVerification, setShowVerification] = useState(false);
+  let [code, setCode] = useState('');
+
   function registerUser() {
-    let {error} = schema.validate({username: username , password: password , name:name }) ; 
-    console.log('Joi Err: ' ,error  ) ;
-    if (error){
-      setErrors([error.message]) ; 
-    } else {
-      Auth.register(username, password, name)
-      .then(() => history.push("/profile"))
-      .catch(err => setErrors(err));
+    setErrors([]) ; 
+    ObjectUtil.validateForm(FormSchema, value).then(() => Auth.register(value))
+      .then(() => {
+        setShowVerification(true);
+      })
+      .catch(e => setErrors(e)); 
+
+  }
+
+  function changeValue(fieldName , val){
+    let x = { ...value };
+    let v = val
+    //Change the  Username format to String
+    if (fieldName === 'username')
+      v = NumberUtil.fixNumbers(val) ; 
+    x[fieldName] = v;
+    setValue(x);
+  }
+
+  function verifyCode() {
+    Auth.login(value.username, value.password, code).then(()=>{
+      history.push('/profile'); 
+    }).catch(e => setErrors(e)) ; 
+  }
+
+  function getButtomPart() {
+    if (!showVerification) {
+      return [
+        <StaticForm form={FormSchema} value={value} onChange={changeValue} title={"ثبت نام در سامانه کرونا یار"} errors={errors} />,
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+        onClick={registerUser}
+      >
+        ثبت نام
+        </Button>]
+    }else {
+      return [
+        <TextField
+        required
+        fullWidth
+        label={"کد اعتبار سنجی"}
+        autoFocus
+        value={code}
+        onChange={e => setCode(e.target.value)}
+      />
+        , 
+
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+        onClick={verifyCode}
+      >
+        تکمیل ثبت نام
+        </Button>]
+      
     }
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          ثبت نام در سامانه
-        </Typography>
-        <ErrorDisplay errors={errors}/> 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              autoComplete="fname"
-              name="firstName"
-              variant="outlined"
-              required
-              fullWidth
-              id="firstName"
-              label="نام"
-              autoFocus
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              autoComplete="fname"
-              name="firstName"
-              variant="outlined"
-              required
-              fullWidth
-              id="firstName"
-              label="نام کاربری"
-              autoFocus
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="رمز عبور"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </Grid>
-        </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={registerUser}
-        >
-          ثبت نام
-        </Button>
-      </div>
-      <Box mt={5}></Box>
+    <Container maxWidth="xs">
+
+      
+      {getButtomPart()}
     </Container>
+
   );
 }
