@@ -1,5 +1,6 @@
 const app = require("../../app");
 const userService = require("../user/UserService");
+const objectUtil = require("../../utils/ObjectUtil");
 
 function reqCollection() {
   return app
@@ -28,6 +29,11 @@ async function createRequest(jwt, obj) {
   };
   return reqCollection().insertOne(req);
 }
+async function getRequest(jwt, reqId) {
+  return reqCollection().findOne(
+    { _id: ObjectID(reqId)});
+}
+
 async function updateRequest(jwt, reqId, obj) {
   let user = await userService.getProfile(jwt);
   let req = { ...obj, user: user };
@@ -52,7 +58,7 @@ async function getPledges(jwt, reqId) {
 async function upsertPledge(jwt, reqId, pledge) {
   console.log('Pledge:' , pledge); 
   let objToUpdate = {
-    ...pledge,
+    ...objectUtil.objectFilter(pledge , ['quantity',  'pledgeDate' , 'description']),
     requestId: ObjectID(reqId),
     userId: ObjectID(jwt._id)
   };
@@ -60,6 +66,7 @@ async function upsertPledge(jwt, reqId, pledge) {
     requestId: ObjectID(reqId),
     userId: ObjectID(jwt._id)
   });
+
   if (existing) {
     await pledgeCollection().updateOne(
       { requestId: ObjectID(reqId), userId: ObjectID(jwt._id) },
@@ -90,7 +97,9 @@ async function summerizeRequest(reqId) {
 
 module.exports = {
   createRequest: createRequest,
+  getRequest: getRequest, 
   updateRequest: updateRequest,
   getAllRequests: getAllRequests,
   upsertPledge: upsertPledge,
+  getPledges: getPledges, 
 };

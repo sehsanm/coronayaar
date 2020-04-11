@@ -21,7 +21,10 @@ export default {
     schema: Joi.object({
         quantity: Joi.number().required().min(1).error(new Error('تعداد باید عددی بیشتر از یک باشد')), 
         pledgeDate: Joi.any().required(), 
-        description: Joi.string()
+        description: Joi.string(),
+        _id: Joi.string(),
+        requestId: Joi.string(),
+        userId: Joi.string(),
     }), 
     
 }

@@ -19,6 +19,14 @@ let ProfileService = function() {
         return Communicator.post(`/requests/${requestId}/pledges` , pledge) ; 
     } 
 
+    ret.getRequest = async (requestId) => {
+        return Communicator.get(`/requests/${requestId}`); 
+    }
+
+    ret.getPledges = async (requestId) => {
+        return Communicator.get(`/requests/${requestId}/pledges`); 
+    }
+
     return ret;  
 
 }() ; 

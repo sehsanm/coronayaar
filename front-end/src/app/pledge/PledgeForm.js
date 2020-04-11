@@ -23,7 +23,7 @@ const useStyle = makeStyles(theme => ({
 
 function RequestForm(props) {
   const classes = useStyle();
-  let [pledgeForm, setPledgeForm] = useState({});
+  let [pledgeForm, setPledgeForm] = useState(props.pledge || {});
   let [currentUser, setCurrentUser] = useState({});
   let [loading, setLoading] = useState(false);
   let [errors, setErrors] = useState([]);

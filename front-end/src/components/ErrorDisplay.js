@@ -8,8 +8,10 @@ function ErrorDisplay(props) {
   }
   console.log('Error Display:' , props); 
 
-  if (props.errors && props.errors.length > 0) {
+  if (props.errors && Array.isArray(props.errors) && props.errors.length > 0) {
     return <div>{props.errors.map((err, ind) => getSnackBar(err))}</div>;
+  } else {
+    return getSnackBar(props.errors); 
   }
 
   return null;

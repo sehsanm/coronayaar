@@ -17,6 +17,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import fa from "moment/locale/fa";
 import jMoment from "moment-jalaali";
 
+
 jMoment.locale("fa", fa);
 jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
 
@@ -62,7 +63,7 @@ const BorderLinearProgress = withStyles({
 
 export default function RequestCard(props) {
   const classes = useStyles();
-
+  console.log('Actions:' , props.actions); 
 
   return (
     <Card className={classes.root}   variant="elevation" elevation={3} >

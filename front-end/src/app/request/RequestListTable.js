@@ -1,11 +1,9 @@
 import React, {  } from "react";
 import MaterialTable from "material-table";
-import RequestCard from "./RequestCard";
-import PledgeDialogButton from "../pledge/PledgeDialogButton";
+import RequestCardLoader from "./RequestCardLoader";
 
 function detailPanelRender(rowData) {
-  let pledgeButton = <PledgeDialogButton request={rowData} />
-  return <RequestCard request={rowData} actions={[pledgeButton]} />;
+  return <RequestCardLoader id={rowData._id} />
 }
 
 function RequestListTable(props) {
