@@ -23,6 +23,7 @@ jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
 
 const useStyles = makeStyles(theme => ({
   root: {
+    maxWidth: 600, 
   },
   media: {
     height: 0,

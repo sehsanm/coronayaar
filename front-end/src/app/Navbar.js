@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TypoGraphy from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu' ;
 import AccountCircle from '@material-ui/icons/AccountCircle'; 
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
+import MainDrawer from './MainDrawer';
 const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(1) 
@@ -22,7 +23,8 @@ const useStyles = makeStyles(theme => ({
 function NavBar(props) {
     
     const classes = useStyles() ; 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [drawerOpen , setDrawerOpen] = useState(false); 
     const open = Boolean(anchorEl);
     const history = useHistory() ; 
     const logout = () => {
@@ -92,9 +94,11 @@ function NavBar(props) {
     }
 
     return ( 
+      <div>
         <AppBar color="primary" position="sticky" >
             <Toolbar>
-            <IconButton edge="start"  color="inherit" aria-label="menu" className={classes.menuIcon}>
+            <IconButton edge="start"  color="inherit" aria-label="menu" 
+              className={classes.menuIcon} onClick={()=>setDrawerOpen(!drawerOpen)}>
                 <MenuIcon />
             </IconButton>
             <TypoGraphy variant="title"color="inherit" style={{flex:1 , textAlign:"right"}}>
@@ -103,6 +107,8 @@ function NavBar(props) {
             {getMenuItems()}
             </Toolbar>
         </AppBar>
+        <MainDrawer open={drawerOpen} onClick={()=>setDrawerOpen(false)}/> 
+      </div>
     )
 }
 

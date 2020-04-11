@@ -14,9 +14,7 @@ import ProfileOrg from './app/profile/Profile';
 import UserList from './app/admin/UserList' ; 
 import Dashboard from './app/home/Dashboard';
 import RequestForm from './app/request/RequestForm';
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import RequestList from './app/request/RequestList';
-import RequestCard from './app/request/RequestCard'
 function App(props) {
     return (
       <div id='app-div'>
@@ -30,8 +28,9 @@ function App(props) {
             <Route path="/users" ><UserList /></Route>
             <Route path="/request" ><RequestForm /></Route>
             <Route path="/dashboard" ><Dashboard /></Route>
-            <Route path="/r" ><RequestCard /></Route>
-
+            <Route path="/myrequests" ><RequestList  myRequests={true}/></Route>
+            <Route path="/allrequests" ><RequestList /></Route>
+            <Route path="/newrequest" ><RequestForm /></Route>
             <Route path="/" ><Route/><RequestList /></Route>
             </Switch>
 
