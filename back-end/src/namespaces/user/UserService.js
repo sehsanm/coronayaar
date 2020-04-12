@@ -59,7 +59,8 @@ module.exports = {
 
   assertRole: assertRole,
   login: login,
-
+  isAdmin: (jwt) => jwt.roles.indexOf('admin') >= 0, 
+   
   register: async (userInfo) => {
     let u = objectUtil.objectFilter(userInfo, REGISTER_FIELDS);
     //TODO VALIDATE REGISTRATION

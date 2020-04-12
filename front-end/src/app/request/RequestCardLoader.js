@@ -4,7 +4,7 @@ import ErrorDiplay from '../../components/ErrorDisplay' ;
 import RequestService from '../../services/RequestService' ;
 import AuthService from '../../services/AuthService'; 
 import PledgeDialogButton from "../pledge/PledgeDialogButton";
-
+import ChangeStatusDialogButton from './ChangeStatusDialogButton';
 function RequsetCardLoader(props) {
     let [req, setReq] = useState(null); 
     let [pledges, setPledges] = useState([]); 
@@ -13,6 +13,21 @@ function RequsetCardLoader(props) {
     useEffect(()=>{
         loadRequest() ;
     } , []); 
+
+    function getActions() {
+        let actions = [] 
+        if (!AuthService.getAuth().isAuthenticated())
+            return actions ; 
+        if (AuthService.getAuth().isAdmin()) {
+            actions.push(<ChangeStatusDialogButton request={req} onClose={() => loadRequest()} />); 
+        } else if ( AuthService.getAuth().user.profile.orgType == 'charity' ){ 
+            let myPledge = findMyPledge(); 
+            actions.push(<PledgeDialogButton request={req} pledge={myPledge} onClose={() => loadRequest()}/>); 
+
+        }
+
+        return actions ; 
+    }
 
     function loadRequest() {
         setErrors(null); 
@@ -25,10 +40,8 @@ function RequsetCardLoader(props) {
 
     if (errors)
         return <ErrorDiplay errors={errors} /> 
-    else if (req) {
-        let myPledge = findMyPledge(); 
-        let action = <PledgeDialogButton request={req} pledge={myPledge} onClose={() => loadRequest()}/> ;            
-        return <RequestCard request={req}  actions={[action]}/>
+    else if (req) {                    
+        return <RequestCard request={req}  actions={getActions()}/>
     }else {
         return <div></div>;   
     }

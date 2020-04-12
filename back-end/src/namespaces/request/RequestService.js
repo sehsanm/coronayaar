@@ -1,6 +1,7 @@
 const app = require("../../app");
 const userService = require("../user/UserService");
 const objectUtil = require("../../utils/ObjectUtil");
+const PUBLIC_FIELDS = ['quantity', 'type', 'requiredBy', 'urgency', 'description'];
 
 function reqCollection() {
   return app
@@ -20,10 +21,10 @@ async function createRequest(jwt, obj) {
   let user = await userService.getProfile(jwt);
   if (user.status != "approved") return Promise.reject("User is not Approved!");
   let req = {
-    ...obj,
+    ...objectUtil.objectFilter(obj , PUBLIC_FIELDS),
     userId: user._id,
     org: { ...user.profile },
-    status: "approved",
+    status: "pending",
     proc_status: "active",
     createdDate: new Date()
   };
@@ -35,12 +36,23 @@ async function getRequest(jwt, reqId) {
 }
 
 async function updateRequest(jwt, reqId, obj) {
+
   let user = await userService.getProfile(jwt);
-  let req = { ...obj, user: user };
-  return reqCollection().updateOne(
-    { _id: ObjectID(reqId), userId: user._id },
-    { $set: req }
-  );
+  if (userService.isAdmin(jwt)) {
+    let req = obj;
+    return reqCollection().updateOne(
+      { _id: ObjectID(reqId)},
+      { $set: req }
+    );
+
+  } else {
+    let req = objectUtil.objectFilter(obj , PUBLIC_FIELDS);
+    return reqCollection().updateOne(
+      { _id: ObjectID(reqId), userId: user._id },
+      { $set: req }
+    );
+  
+  }
 }
 
 async function getAllRequests(jwt, filter) {

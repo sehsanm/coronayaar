@@ -12,6 +12,7 @@ var AuthInfo = function(userInfo) {
             return true ; 
         return false ; 
     }
+    
 
     ret.user = userInfo ;
 
