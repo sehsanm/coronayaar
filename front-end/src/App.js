@@ -15,6 +15,7 @@ import UserList from './app/admin/UserList' ;
 import Dashboard from './app/home/Dashboard';
 import RequestForm from './app/request/RequestForm';
 import RequestList from './app/request/RequestList';
+import PledgeList from './app/pledge/PledgeList';
 function App(props) {
     return (
       <div id='app-div'>
@@ -26,6 +27,7 @@ function App(props) {
             <Route path="/register" ><Register /></Route>
             <Route path="/profile" ><ProfileOrg /></Route>
             <Route path="/users" ><UserList /></Route>
+            <Route path="/request/:id/pledges" render={(props) => <PledgeList requestId={props.match.params.id} />} />
             <Route path="/request" ><RequestForm /></Route>
             <Route path="/dashboard" ><Dashboard /></Route>
             <Route path="/myrequests" ><RequestList  myRequests={true}/></Route>

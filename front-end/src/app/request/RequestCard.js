@@ -8,22 +8,18 @@ import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import { LocalHospital } from "@material-ui/icons";
+import { LocalHospital , Info,  SupervisorAccount } from "@material-ui/icons";
 import RoomIcon from '@material-ui/icons/Room';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import PhoneIcon from '@material-ui/icons/Phone';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import fa from "moment/locale/fa";
-import jMoment from "moment-jalaali";
-import RequestUtil from './RequestUtil'; 
-
-jMoment.locale("fa", fa);
-jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
-
+import ObjectUtil from '../../components/ObjectUtil' ; 
+import RequestUtil from './RequestUtil' ; 
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 600,
+    margin: theme.spacing(1),
   },
   media: {
     height: 0,
@@ -45,9 +41,14 @@ const useStyles = makeStyles(theme => ({
   info: {
     textAlign: 'right',
     margin: theme.spacing(1),
+    verticalAlign: 'middle',
   },
   margin: {
     margin: theme.spacing(1),
+  },
+  infoIcons: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   }
 }));
 
@@ -76,7 +77,7 @@ export default function RequestCard(props) {
         }
 
         title={props.request.quantity + props.request.type}
-        subheader={jMoment(props.request.createdDate).fromNow()}
+        subheader={ObjectUtil.fromNow(props.request.createdDate)}
       />
       <CardMedia>
         <BorderLinearProgress
@@ -91,23 +92,25 @@ export default function RequestCard(props) {
         </Typography>
       </CardMedia>
       <CardContent>
+          
+          <Typography variant="body2" component="p" className={classes.info}>
+          <RoomIcon  className={classes.infoIcons}/> {props.request.org.orgProvince} - {props.request.org.orgCity}
+          </Typography>
+
         <Typography variant="body2" component="p" className={classes.info}>
-          <RoomIcon /> {props.request.org.orgProvince} - {props.request.org.orgCity}
+          <LocationCityIcon className={classes.infoIcons}/> مرکز درمانی: {props.request.org.orgName}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
-          <LocationCityIcon /> مرکز درمانی: {props.request.org.orgName}
+          <HourglassEmptyIcon className={classes.infoIcons}/> مورد نیاز تا: {ObjectUtil.fromNow(props.request.requiredBy)}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
-          <HourglassEmptyIcon /> مورد نیاز تا: {jMoment(props.request.requiredBy).fromNow()}
+          <PhoneIcon className={classes.infoIcons}/> شماره تماس: {props.request.org.orgPhone}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
-          <PhoneIcon /> شماره تماس: {props.request.org.orgPhone}
+        <Info className={classes.infoIcons}/> توضیحات: {props.request.description}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
-          توضیحات {props.request.description}
-        </Typography>
-        <Typography variant="body2" component="p" className={classes.info}>
-         وضعیت:  {RequestUtil.convertStatus(props.request.status)}
+        <SupervisorAccount className={classes.infoIcons}/>  وضعیت:  {RequestUtil.convertStatus(props.request.status)}
         </Typography>
       </CardContent>
       <CardActions >

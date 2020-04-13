@@ -6,7 +6,6 @@ import Auth from "../../services/AuthService";
 import { useHistory } from "react-router-dom";
 import StaticForm from '../../components/StaticForm';
 import ObjectUtil from '../../components/ObjectUtil';
-import NumberUtil from '../../components/NumberUtil';
 import FormSchema from './RegisterFormData';
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -54,7 +53,7 @@ export default function Register() {
     let v = val
     //Change the  Username format to String
     if (fieldName === 'username')
-      v = NumberUtil.fixNumbers(val) ; 
+      v = ObjectUtil.fixNumbers(val) ; 
     x[fieldName] = v;
     setValue(x);
   }

@@ -18,7 +18,7 @@ import moment from "moment";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import JalaliUtils from "@date-io/jalaali";
 import jMoment from "moment-jalaali";
-import NumberUtil from './NumberUtil' ; 
+import ObjectUtil from './ObjectUtil' ; 
 jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
 
 const useStyles = makeStyles(theme => ({
@@ -111,7 +111,7 @@ function StaticForm(props) {
             autoFocus
             value={props.value[field.name]}
             onChange={e => {
-              let fixed = NumberUtil.fixNumbers(e.target.value) ; 
+              let fixed = ObjectUtil.fixNumbers(e.target.value) ; 
               if (isFinite(parseInt(fixed)))
                 props.onChange(field.name, parseInt(fixed));
             }}

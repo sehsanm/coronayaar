@@ -65,7 +65,18 @@ async function getAllRequests(jwt, filter) {
 }
 
 async function getPledges(jwt, reqId) {
-  return pledgeCollection().find({ requestId: ObjectID(reqId) }).toArray();
+  let ret = await pledgeCollection().find({ requestId: ObjectID(reqId) }).toArray();
+  let userIds = ret.map(r => r._id); 
+  let users = await userService.getAllUsers(jwt, userIds); 
+  let usermap = {}
+  users.reduce((prev , current) => {
+    prev[current._id] = current
+    return prev ; 
+  } , usermap) ; 
+  console.log('XXXX' , usermap); 
+  ret.forEach(v => v.user = usermap[v.userId]) ; 
+  return ret ; 
+
 }
 async function upsertPledge(jwt, reqId, pledge) {
   console.log('Pledge:' , pledge); 

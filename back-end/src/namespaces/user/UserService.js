@@ -169,5 +169,9 @@ module.exports = {
         $set: objectUtil.objectFilter(user, ["status", "name", "roles"])
       }
     );
+  }, 
+
+  loadUsers:async (userJWT,  userIdList) => {
+    return  getCollection().find({_id: {$in:userIdList}}).toArray() ;
   }
 };
