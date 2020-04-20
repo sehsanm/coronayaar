@@ -11,5 +11,11 @@ module.exports = {
             }   
         });
         return ret ; 
-    }
+    }, 
+
+    mongoProject:(fields, inclusion) => {
+        let ret = {}
+        fields.forEach((v) => ret[v] = inclusion); 
+        return ret ; 
+    },
 }

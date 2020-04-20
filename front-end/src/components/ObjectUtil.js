@@ -46,7 +46,7 @@ export default {
     validateForm: async (form, data) => {
         return new Promise((resolve, reject) => {
             if (form.schema) {
-                let { error } = form.schema.validate(data);
+                let { error, value } = form.schema.validate(data , {stripUnknown:true});
                 if (error) {
                     if (error.message)
                         reject([error.message]);
@@ -55,9 +55,11 @@ export default {
                     } else {
                         reject([error + '']);
                     }
+                } else {
+                    resolve(value); 
                 }
             }
-
+            //No Schema Defined
             resolve(data);
         });
     },

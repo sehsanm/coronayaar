@@ -28,11 +28,10 @@ function App(props) {
             <Route path="/profile" ><ProfileOrg /></Route>
             <Route path="/users" ><UserList /></Route>
             <Route path="/request/:id/pledges" render={(props) => <PledgeList requestId={props.match.params.id} />} />
-            <Route path="/request" ><RequestForm /></Route>
-            <Route path="/dashboard" ><Dashboard /></Route>
-            <Route path="/myrequests" ><RequestList  myRequests={true}/></Route>
+            <Route path="/request"  render={(props) => <RequestForm  onClose={()=>props.history.push('/my/requests')}/>}/>
+            <Route path="/my/requests" ><RequestList  myRequests={true}/></Route>
+            <Route path="/my/pledges" ><PledgeList  myPledges /></Route>
             <Route path="/allrequests" ><RequestList /></Route>
-            <Route path="/newrequest" ><RequestForm /></Route>
             <Route path="/" ><Route/><RequestList /></Route>
             </Switch>
 

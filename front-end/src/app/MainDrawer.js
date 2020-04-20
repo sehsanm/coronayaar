@@ -11,11 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import MailIcon from "@material-ui/icons/Mail";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import RequestForm from "./request/RequestForm";
 import UserService from '../services/UserService' ; 
-import UserList from "./admin/UserList";
-import ProfileOrg from './profile/Profile';
-import RequestList from './request/RequestList' ; 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -92,14 +88,16 @@ function MainDrawer(props) {
         return drawerBuilder([
             {label: " لیست همه درخواست ها", handler: () => setPage('/allrequests') }, 
             {label: "لیست کاربران", handler:() => setPage('/users')}, 
-            {label: "در خواست جدید", handler:() => setPage('/newrequest')}]);    
-    }else if (user.profile && user.profile.orgType == 'hospital') {  
+            {label: "در خواست جدید", handler:() => setPage('/request')}]);    
+    }else if (user.profile && user.profile.orgType === 'hospital') {  
         return drawerBuilder([
-        {label: "در خواست های من", handler: () => setPage('/myrequests') }, 
-        {label: "در خواست جدید", handler:() => setPage('/newrequest')}]);
+        {label: "در خواست های من", handler: () => setPage('/my/requests') }, 
+        {label: "در خواست جدید", handler:() => setPage('/request')},
+        {label: "پروفایل", handler:() => setPage('/profile')}]);
     } else {
         return drawerBuilder([
             {label: " لیست همه درخواست ها", handler: () => setPage('ِ/allrequests') }, 
+            {label: "قرارهای تامین من", handler:() => setPage('/my/pledges')},
             {label: "پروفایل", handler:() => setPage('/profile')}]);    
                 
     }

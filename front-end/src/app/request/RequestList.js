@@ -25,7 +25,7 @@ function RequestList(props) {
     if (loading) {
         return <LinearProgress /> ; 
     } else {
-        return <RequestListTable data={requests} />
+        return <RequestListTable data={requests || [] } />
     }
     
 }

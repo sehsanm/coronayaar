@@ -46,7 +46,10 @@ function RequestForm(props) {
         setErrors([]);
       }
     }
-    RequestService.saveRequest(value).then(() => history.push("/dashboard"));
+    RequestService.saveRequest(value).then((v) => {
+      if (props.onClose)
+        props.onClose(v); 
+    });
   }
   console.log(form);
   if (loading) {

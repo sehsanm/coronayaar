@@ -38,8 +38,6 @@ function RequestForm(props) {
   }
   console.log('Pledge form:' , props) ;
   function savePledge() {
-    console.log('Pledge form (1):' , props.request._id) ;
-
     setLoading(true); 
     ObjectUtil.validateForm(PledgeFormData, pledgeForm).then(() => RequestService.upsertPledge(props.request._id, pledgeForm))
       .then(() => props.onClose(pledgeForm))

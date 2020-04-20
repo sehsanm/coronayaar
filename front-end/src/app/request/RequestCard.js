@@ -94,17 +94,17 @@ export default function RequestCard(props) {
       <CardContent>
           
           <Typography variant="body2" component="p" className={classes.info}>
-          <RoomIcon  className={classes.infoIcons}/> {props.request.org.orgProvince} - {props.request.org.orgCity}
+          <RoomIcon  className={classes.infoIcons}/> {props.request.user.profile.orgProvince} - {props.request.user.profile.orgCity}
           </Typography>
 
         <Typography variant="body2" component="p" className={classes.info}>
-          <LocationCityIcon className={classes.infoIcons}/> مرکز درمانی: {props.request.org.orgName}
+          <LocationCityIcon className={classes.infoIcons}/> مرکز درمانی: {props.request.user.profile.orgName}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
           <HourglassEmptyIcon className={classes.infoIcons}/> مورد نیاز تا: {ObjectUtil.fromNow(props.request.requiredBy)}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
-          <PhoneIcon className={classes.infoIcons}/> شماره تماس: {props.request.org.orgPhone}
+          <PhoneIcon className={classes.infoIcons}/> شماره تماس: {props.request.user.profile.orgPhone}
         </Typography>
         <Typography variant="body2" component="p" className={classes.info}>
         <Info className={classes.infoIcons}/> توضیحات: {props.request.description}

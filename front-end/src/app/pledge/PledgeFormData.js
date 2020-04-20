@@ -23,8 +23,6 @@ export default {
         pledgeDate: Joi.any().required(), 
         description: Joi.string(),
         _id: Joi.string(),
-        requestId: Joi.string(),
-        userId: Joi.string(),
     }), 
     
 }

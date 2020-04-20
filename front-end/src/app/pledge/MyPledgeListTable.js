@@ -2,31 +2,31 @@ import React, {  } from "react";
 import MaterialTable from "material-table";
 import ObjectUtil from '../../components/ObjectUtil' ;
 import UIUtil from '../../components/UIUtil' ; 
-
+import RequestCardLoader from '../request/RequestCardLoader' ; 
 function PledgeListTable(props) {
   return (
     <div>
       <MaterialTable
         title="قرارهای تامین نیازمندی"
+        detailPanel={[
+          {
+            render: (rowData)=> <RequestCardLoader id={rowData.request._id} /> 
+          
+          }
+        ]}
         options={{
           search: true
         }}
         columns={[
           {
-            title: "سازمان تامین کننده",
-            field: "user.profile.orgName",
-            cellStyle: { textAlign: "center" },
-            headerStyle: { textAlign: "center" },
-          },
-          {
-            title: "کاربر",
-            field: "user.name",
+            title: "مرکز متقاضی",
+            field: "request.org.orgName",
             cellStyle: { textAlign: "center" },
             headerStyle: { textAlign: "center" },
           },
           {
             title: "شماره تماس",
-            field: "user.profile.orgPhone",
+            field: "request.org.orgPhone",
             cellStyle: { textAlign: "center" },
             headerStyle: { textAlign: "center" },
           },

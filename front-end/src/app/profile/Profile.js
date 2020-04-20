@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import StaticForm from "../../components/StaticForm";
 import { Button, Container } from "@material-ui/core";
 import ProfileForm from "./ProfileFormData";
-export default function ProfileOrg() {
+import { PinDropSharp } from "@material-ui/icons";
+export default function ProfileOrg(props) {
   const history = useHistory();
   let [provinceList, setProvinceList] = useState([]);
   let [cityList, setCityList] = useState([]);
@@ -70,7 +71,10 @@ export default function ProfileOrg() {
       }
     }
     UserService.saveProfile(value)
-      .then(() => history.push("/dashboard"))
+      .then((v) => {
+        if(props.onClose)
+          props.onClose(v); 
+      })
       .catch(err => {
         setErrors([err + ""]);
       });

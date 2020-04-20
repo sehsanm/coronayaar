@@ -52,9 +52,14 @@ async function login(username, password, verificationCode) {
 
 
 module.exports = {
+  PUBLIC_FIELDS: PUBLIC_FIELDS , 
   getCurrentUser: token => {
-    jwtToken = jwt.verify(token, app.core().env.user.jwtSecret);
-    return jwtToken;
+    try {
+      jwtToken = jwt.verify(token, app.core().env.user.jwtSecret);
+      return jwtToken;
+    }catch(err) {
+      return null ; 
+    }
   },
 
   assertRole: assertRole,

@@ -33,6 +33,13 @@ function getPledges(request, response){
 
 }
 
+function getUserPledges(request, response){
+    ApiUtil.respond(RequestService.getUserPledges(app.core().user.getCurrentUser(request),
+    request.params.userId), 
+    response);          
+
+}
+
 function getAllRequests(request, response) {
     ApiUtil.respond(RequestService.getAllRequests(null,
         request.query), 
@@ -47,5 +54,6 @@ module.exports = {
         services.express.get('/requests/:reqId' , getRequest) ; 
         services.express.post('/requests/:reqId' , updateRequest) ; 
         services.express.get('/requests' , getAllRequests)
+        services.express.get('/pledges/:userId' , getUserPledges)
     }
 }

@@ -3,7 +3,7 @@ const userService = require('./UserService');
 const objectUtil = require('../../utils/ObjectUtil');
 const apiUtil = require('../../utils/ApiUtil');
 
-const PROFILE_UPDATEABLE_FIELDS = ["orgName", "orgDescription", "orgCity", "orgProvince", "orgType"];
+const PROFILE_UPDATEABLE_FIELDS = ["orgName", "orgDescription", "orgCity", "orgProvince", "orgType" , "orgPhone"];
 
 let init = (services) => {
     services.express.post('/login', login);

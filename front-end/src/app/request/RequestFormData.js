@@ -57,5 +57,7 @@ export default  {
         requiredBy: Joi.any().required().error(new Error('تاریخ نیازمندی را وارد کنید')),
         urgency: Joi.string().required().error(new Error('فوریت را وارد کنید.')),
         description: Joi.string(),
+        _id: Joi.string(), 
+        status: Joi.string() , 
     }),
 }

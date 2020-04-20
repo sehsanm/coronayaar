@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Button, TextField} from "@material-ui/core";
+import {Button, TextField, Grid} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Auth from "../../services/AuthService";
@@ -80,34 +80,36 @@ export default function Register() {
         </Button>]
     }else {
       return [
-        <TextField
-        required
-        fullWidth
-        label={"کد اعتبار سنجی"}
-        autoFocus
-        value={code}
-        onChange={e => setCode(e.target.value)}
-      />
-        , 
+        <Grid container className={classes.paper} >
+          <Grid item>
+              <TextField
+            required
+            fullWidth
+            label={"کد اعتبار سنجی"}
+            autoFocus
+            value={code}
+            onChange={e => setCode(e.target.value)}
+          />
 
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        onClick={verifyCode}
-      >
-        تکمیل ثبت نام
-        </Button>]
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={verifyCode}
+          >
+            تکمیل ثبت نام
+            </Button>
+          </Grid>
+        </Grid>
+      ]
       
     }
   }
 
   return (
     <Container maxWidth="xs">
-
-      
       {getButtomPart()}
     </Container>
 

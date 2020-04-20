@@ -1,6 +1,7 @@
 import React, {  } from "react";
 import MaterialTable from "material-table";
 import RequestCardLoader from "./RequestCardLoader";
+import UIUtil from '../../components/UIUtil' ; 
 
 function detailPanelRender(rowData) {
   return <RequestCardLoader id={rowData._id} />
@@ -23,54 +24,41 @@ function RequestListTable(props) {
           {
             title: "مورد نیاز",
             field: "type",
-            cellStyle: { textAlign: "center" }
+            cellStyle: { textAlign: "center" },
+            headerStyle: { textAlign: "center" },
           },
           {
             title: "تعداد",
             field: "quantity",
-            cellStyle: { textAlign: "center" }
+            cellStyle: { textAlign: "center" },
+            headerStyle: { textAlign: "center" },
           },
           {
             title: "فوریت",
             field: "urgency",
-            cellStyle: { textAlign: "center" }
+            cellStyle: { textAlign: "center" },
+            headerStyle: { textAlign: "center" },
           },
           {
             title: "استان",
-            field: "org.orgProvince",
-            cellStyle: { textAlign: "center" }
+            field: "user.profile.orgProvince",
+            cellStyle: { textAlign: "center" },
+            headerStyle: { textAlign: "center" },
           },
           {
             title: "شهر",
-            field: "org.orgCity",
-            cellStyle: { textAlign: "center" }
+            field: "user.profile.orgCity",
+            cellStyle: { textAlign: "center" },
+            headerStyle: { textAlign: "center" },
           },
           {
             title: "نام مرکز",
-            field: "org.orgName",
-            cellStyle: { textAlign: "center" }
+            field: "user.profile.orgName",
+            cellStyle: { textAlign: "center" },
+            headerStyle: { textAlign: "center" },
           }
         ]}
-        localization={{
-          pagination: {
-            labelDisplayedRows: "{from}-{to} از {count}",
-            labelRowsSelect: "نتیجه"
-          },
-          toolbar: {
-            nRowsSelected: "{0}مورد انتخاب شده ",
-            searchPlaceholder: "جستجو"
-          },
-          header: {
-            actions: "Actions"
-          },
-
-          body: {
-            emptyDataSourceMessage: "هیچ نتیجه ای یافت  نشد",
-            filterRow: {
-              filterTooltip: "Filter"
-            }
-          }
-        }}
+        localization={UIUtil.TABLE_LOCALIZATION}
         data={props.data}
       />
     </div>

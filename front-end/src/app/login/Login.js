@@ -4,7 +4,7 @@ import { Face, Fingerprint } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom' ; 
 import Auth from '../../services/AuthService';
-
+import ErrorDisplay from '../../components/ErrorDisplay' ; 
 const styles = makeStyles( theme => ({
     div: {
         margin: theme.spacing(2),
@@ -21,14 +21,15 @@ const styles = makeStyles( theme => ({
  
 function Login(props) {
         const  classes  = styles();
-        const [username , setUsername] = useState('p');
-        const [password , setPassword] = useState('p');
+        const [username , setUsername] = useState('');
+        const [password , setPassword] = useState('');
+        const [errors, setErrors] = useState([]); 
         const history = useHistory();
         function login() {
             Auth.login(username, password).then(()=>{
                 history.push('/profile')
             }).catch(e => {
-                console.log('Fuuuuck!'); 
+                setErrors(e); 
             })
         }
 
@@ -36,13 +37,14 @@ function Login(props) {
         return (
             <Paper className={classes.paper}>
                 <div className={classes.div}>
+                    <ErrorDisplay errors={errors} /> 
                     <Grid container spacing={8} alignItems="flex-end">
                         <Grid item>
                             <Face />
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField id="username" label="نام كاربري"
-                                 type="email" fullWidth autoFocus required
+                            <TextField id="username" label="شماره موبایل"
+                                 type="email" fullWidth autoFocus required placeholder="09xxxxxxxxx"
                                  onChange={(e) => setUsername(e.target.value)} value={username}/>
                         </Grid>
                     </Grid>
