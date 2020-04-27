@@ -13,7 +13,8 @@ module.exports =  function() {
         },
         user: {
             jwtSecret: process.env.JWT_SECRET || 'MY_DEV_SECRET' ,
-            adminUsers: process.env.ADMIN_LIST || '09024472939'
+            adminUsers: process.env.ADMIN_LIST || '09024472939' , 
+            skipVerification: process.env.SKIP_VERIFICATION || false, 
         },
         sms: {
             apiKey: process.env.SMS_API_KEY ,

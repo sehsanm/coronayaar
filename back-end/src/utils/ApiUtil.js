@@ -21,6 +21,8 @@ module.exports = {
                     response.status(400).send(err) ;
                 else
                     response.status(500).send(err) ; 
+            } else {
+                response.status(500).send(err) ;
             }
         }); 
     }, 

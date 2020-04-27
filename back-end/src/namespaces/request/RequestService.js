@@ -59,9 +59,10 @@ async function updateRequest(jwt, reqId, obj) {
 }
 
 async function getAllRequests(jwt, filter) {
-  let mongoFilter = {};
+  let mongoFilter = {...filter};
   if (filter.userId) 
     mongoFilter.userId = ObjectID(filter.userId);
+  console.log('Request Filter:', mongoFilter);
   return getRequests(mongoFilter);
 
 }
@@ -129,6 +130,7 @@ async function upsertPledge(jwt, reqId, pledge) {
 }
 
 async function summerizeRequest(reqId) {
+  let request = await reqCollection().findOne({_id : ObjectID(reqId)}) ; 
   return pledgeCollection()
     .find({ requestId: ObjectID(reqId) })
     .toArray()
@@ -141,7 +143,7 @@ async function summerizeRequest(reqId) {
         pledgeCount++;
       });
       return reqCollection().updateOne({ _id: ObjectID(reqId) },
-        { $set: { totalPledged: totalPledged, pledgeCount: pledgeCount } });
+        { $set: { totalPledged: totalPledged, pledgeCount: pledgeCount ,  quantityLeft: request.quantity - totalPledged } });
     });
 
 }

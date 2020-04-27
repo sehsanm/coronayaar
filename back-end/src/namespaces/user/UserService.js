@@ -69,10 +69,7 @@ module.exports = {
   register: async (userInfo) => {
     let u = objectUtil.objectFilter(userInfo, REGISTER_FIELDS);
     //TODO VALIDATE REGISTRATION
-    let dbUser = await app
-      .core()
-      .mongo.db()
-      .collection("users")
+    let dbUser = await getCollection()
       .findOne({ username: u.username });
 
     if (dbUser !== null && dbUser.phoneApproved) {
@@ -91,10 +88,13 @@ module.exports = {
       phoneApproved: false,
       verificationCode: verifyCode,
     }
+    if (app.core().env.user.skipVerification) {
+      user.phoneApproved = true ; 
 
-    let res = await app.core().sms.send("Your CoronaYaar Confirmation Code: " + verifyCode, u.username);
-    console.log('SMS:' , res); 
-    
+    } else {
+      let res = await app.core().sms.send("Your CoronaYaar Confirmation Code: " + verifyCode, u.username);
+      console.log('SMS:' , res); 
+    }
     //First user registration will be marked as admin 
     if (app.core().env.user.adminUsers.indexOf(u.username) !== -1) {
       user.roles = ['admin'];

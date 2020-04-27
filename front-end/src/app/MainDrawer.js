@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useHistory} from 'react-router-dom' ; 
+import { useHistory } from 'react-router-dom';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import MailIcon from "@material-ui/icons/Mail";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import UserService from '../services/UserService' ; 
+import UserService from '../services/UserService';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -22,10 +22,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
-      
-    } , 
+
+    },
     zIndex: theme.zIndex.appBar - 1,
-    marginLeft: theme.spacing(1), 
+    marginLeft: theme.spacing(1),
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
@@ -55,14 +55,14 @@ function MainDrawer(props) {
   const { container } = props;
   const classes = useStyles();
   let history = useHistory();
-  let [user, setUser] = useState({}) ;
+  let [user, setUser] = useState({});
 
 
-  useEffect(()=>{
-      UserService.getProfile().then(res => setUser(res.data)) ; 
-  } , []); 
+  useEffect(() => {
+    UserService.getProfile().then(res => setUser(res.data));
+  }, []);
 
-  let drawerBuilder = function(items){
+  let drawerBuilder = function (items) {
     return (<div>
       <div className={classes.toolbar} />
       <Typography variant="h6">{"سامانه کرونا یار"}</Typography>
@@ -82,32 +82,32 @@ function MainDrawer(props) {
       <Divider />
     </div>)
   }
-  function drawer() { 
-    console.log('-->', user , user.roles && user.roles.indexOf('admin') >= 0); 
-    if (user.roles && user.roles.indexOf('admin') >= 0 ) {
-        return drawerBuilder([
-            {label: " لیست همه درخواست ها", handler: () => setPage('/allrequests') }, 
-            {label: "لیست کاربران", handler:() => setPage('/users')}, 
-            {label: "در خواست جدید", handler:() => setPage('/request')}]);    
-    }else if (user.profile && user.profile.orgType === 'hospital') {  
-        return drawerBuilder([
-        {label: "در خواست های من", handler: () => setPage('/my/requests') }, 
-        {label: "در خواست جدید", handler:() => setPage('/request')},
-        {label: "پروفایل", handler:() => setPage('/profile')}]);
-    } else {
-        return drawerBuilder([
-            {label: " لیست همه درخواست ها", handler: () => setPage('ِ/allrequests') }, 
-            {label: "قرارهای تامین من", handler:() => setPage('/my/pledges')},
-            {label: "پروفایل", handler:() => setPage('/profile')}]);    
-                
+  function drawer() {
+    let items = [];
+    if (user.roles && user.roles.indexOf('admin') >= 0) {
+      items.push({ label: "لیست کاربران", handler: () => setPage('/users') });
+      items.push({ label: " لیست همه درخواست ها", handler: () => setPage('/requests/all') });
+      items.push({ label: " لیست درخواست های تایید نشده", handler: () => setPage('/requests/pending') });
+      items.push({ label: " لیست درخواست های تامین شده", handler: () => setPage('/requests/completed') });
+      items.push({ label: " لیست درخواست های ردشده", handler: () => setPage('/requests/rejected') });
+
+    }else if (user.profile && user.profile.orgType === 'hospital') {
+      items.push({ label: "در خواست های من", handler: () => setPage('/requests/my') });
+      items.push({ label: "در خواست جدید", handler: () => setPage('/request') });
+    }else if (user.profile && user.profile.orgType === 'charity') {
+      items.push({ label: " لیست همه درخواست ها", handler: () => setPage('ِ/requests/approved') });
+      items.push({ label: "قرارهای تامین من", handler: () => setPage('/my/pledges') });
     }
-  }  
+
+    items.push({ label: "پروفایل", handler: () => setPage('/profile') });
+    return drawerBuilder(items);
+  }
 
   function setPage(page) {
-      //Set Open False
-      history.push(page); 
-      if (props.onClick)
-        props.onClick(page);
+    //Set Open False
+    history.push(page);
+    if (props.onClick)
+      props.onClick(page);
   }
   return (
     <div className={classes.root}>

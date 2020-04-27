@@ -42,7 +42,7 @@ function getUserPledges(request, response){
 
 function getAllRequests(request, response) {
     ApiUtil.respond(RequestService.getAllRequests(null,
-        request.query), 
+        JSON.parse(request.query.filter)), 
     response);          
 }
 

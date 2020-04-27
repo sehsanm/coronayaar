@@ -11,14 +11,15 @@ function RequestListTable(props) {
   return (
     <div>
       <MaterialTable
-        title="درخواست های کمک ثبت شده در سیستم"
+        title={props.title || "درخواست های کمک ثبت شده در سیستم"}
         detailPanel={[
           {
             render: detailPanelRender
           }
         ]}
         options={{
-          search: true
+          search: true , 
+          filtering: true,
         }}
         columns={[
           {
@@ -30,12 +31,6 @@ function RequestListTable(props) {
           {
             title: "تعداد",
             field: "quantity",
-            cellStyle: { textAlign: "center" },
-            headerStyle: { textAlign: "center" },
-          },
-          {
-            title: "فوریت",
-            field: "urgency",
             cellStyle: { textAlign: "center" },
             headerStyle: { textAlign: "center" },
           },
@@ -60,6 +55,8 @@ function RequestListTable(props) {
         ]}
         localization={UIUtil.TABLE_LOCALIZATION}
         data={props.data}
+        onRowClick={(event, rowData, togglePanel) => togglePanel()}
+
       />
     </div>
   );

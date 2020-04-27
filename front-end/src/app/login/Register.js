@@ -44,7 +44,10 @@ export default function Register() {
       .then(() => {
         setShowVerification(true);
       })
-      .catch(e => setErrors(e)); 
+      .catch(e => {
+        setErrors(e) ;
+        console.log(e) ; 
+      }); 
 
   }
 

@@ -11,7 +11,7 @@ let ProfileService = function() {
     }
 
     ret.getAllRequests =  async (filter) => {
-        return Communicator.get(`/requests` , filter ) ; 
+        return Communicator.get(`/requests` , {filter:filter} ) ; 
     }
 
     ret.upsertPledge = async (requestId, pledge) => {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-dev": "nodemon ./src/main.js  ../front-end/build",
+    "start-dev": "nodemon ./src/core.js",
     "start": "node ./src/core.js"
   },
   "author": "",

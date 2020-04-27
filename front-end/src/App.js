@@ -16,6 +16,7 @@ import Dashboard from './app/home/Dashboard';
 import RequestForm from './app/request/RequestForm';
 import RequestList from './app/request/RequestList';
 import PledgeList from './app/pledge/PledgeList';
+import Home from './app/home/Home';
 function App(props) {
     return (
       <div id='app-div'>
@@ -25,14 +26,19 @@ function App(props) {
             <Switch>
             <Route path="/login" ><Login /></Route>
             <Route path="/register" ><Register /></Route>
-            <Route path="/profile" ><ProfileOrg /></Route>
+            <Route path="/profile"  render={(props) => <ProfileOrg  onClose={()=>props.history.push('/')}/>}/>
             <Route path="/users" ><UserList /></Route>
             <Route path="/request/:id/pledges" render={(props) => <PledgeList requestId={props.match.params.id} />} />
             <Route path="/request"  render={(props) => <RequestForm  onClose={()=>props.history.push('/my/requests')}/>}/>
-            <Route path="/my/requests" ><RequestList  myRequests={true}/></Route>
             <Route path="/my/pledges" ><PledgeList  myPledges /></Route>
-            <Route path="/allrequests" ><RequestList /></Route>
-            <Route path="/" ><Route/><RequestList /></Route>
+            <Route path="/requests/my" ><RequestList  myRequests={true} title="در خواست های من"/></Route>
+            <Route path="/requests/all" ><RequestList /></Route>
+            <Route path="/requests/approved"  render={(props) => <RequestList  filter={{status: 'approved'}} title=" لیست همه درخواست ها"/>} />
+            <Route path="/requests/pending"  render={(props) => <RequestList filter={{status: 'pending'}}  title=" لیست درخواست های تایید نشده"/>} />
+            <Route path="/requests/rejected"  render={(props) => <RequestList filter={{status: 'rejected'}} title="لیست درخواست های ردشده"/>} />
+            <Route path="/requests/completed"  render={(props) => <RequestList filter={{quantityLeft: {$lte: 0}}} title="لیست درخواست های تامین شده"/>} />
+
+            <Route path="/" ><Route/><Home /></Route>
             </Switch>
 
           </HashRouter>
